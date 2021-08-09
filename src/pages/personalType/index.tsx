@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
-import {
-  Button,
-  Grid,
-  Typography,
-  Breadcrumbs,
-  Link,
-  Skeleton,
-} from "@material-ui/core";
+import { Button, Grid, Typography, Breadcrumbs, Link } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Layout from "../template";
-import NotificationSystem from "../../components/NotificationSystem";
-import { CRUD_CODE, CRUD_MESSAGE } from "../../helpers";
+import { NotificationSystem, SkeletonLoader } from "components";
+import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME } from "helpers";
 import PersonalTypeTable from "./components/PersonalTypeTable";
 import PersonalTypeEdit from "./components/PersonalTypeEdit";
 import PersonalTypeDelete from "./components/PersonalTypeDelete";
@@ -47,17 +40,17 @@ const PersonalType = () => {
   const fetchData = async () => {
     try {
       if (!loading) onChangeLoadingStatus();
-      const response = await personalTypeList();
-      console.log("response: ", response);
-      setData(response.data ?? []);
+      setTimeout(async () => {
+        const response = await personalTypeList();
+        setData(response.data ?? []);
+        onChangeLoadingStatus();
+      }, 500);
     } catch (e) {
-      console.log("error: personalType: ", e);
       NotificationSystem({
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,
       });
     } finally {
-      onChangeLoadingStatus();
     }
   };
 
@@ -66,23 +59,21 @@ const PersonalType = () => {
   }, []);
   const onSendDataToServer = async (formData: any) => {
     try {
-      let response;
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          response = await personalTypeCreate(formData);
+          await personalTypeCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          response = await personalTypeUpdate(formData, formData.id);
+          await personalTypeUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          response = await personalTypeDelete(formData.id);
+          await personalTypeDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
-      console.log("todo bien: ", response);
       fetchData();
       NotificationSystem({
         type: "success",
@@ -93,8 +84,6 @@ const PersonalType = () => {
         type: "error",
         message: CRUD_MESSAGE.GENERAL.ERROR,
       });
-
-      console.log("error: personalType: ", e);
     }
   };
 
@@ -111,6 +100,7 @@ const PersonalType = () => {
         </Grid>
         <Grid item xs={12} md={12}>
           <Button
+            style={{ margin: 16 }}
             variant="contained"
             color="primary"
             startIcon={<AddIcon />}
@@ -119,16 +109,13 @@ const PersonalType = () => {
               onChangeOpenModal();
             }}
           >
-            Crear
+            {BUTTON_NAME.CREATE}
           </Button>
         </Grid>
+        {loading && <SkeletonLoader type="table" />}
+
         <Grid item xs={12} md={12}>
-          {loading ? (
-            <>
-              <Skeleton animation="wave" height="500" width="100%" />
-              <Skeleton animation="wave" height="200" width="100%" />
-            </>
-          ) : (
+          {!loading && (
             <PersonalTypeTable
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}

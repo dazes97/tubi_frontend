@@ -1,0 +1,8 @@
+const BUTTON_NAME = {
+  CREATE: "CREAR",
+  EDIT: "EDITAR",
+  UPDATE: "ACTUALIZAR",
+  DELETE: "ELIMINAR",
+  CANCEL: "CANCELAR",
+};
+export default BUTTON_NAME;

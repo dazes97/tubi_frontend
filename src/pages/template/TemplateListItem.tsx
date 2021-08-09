@@ -51,10 +51,7 @@ export const MenuItemsList = () => {
                   to={element.url}
                   key={Math.random().toString(36).substr(2, 9)}
                 >
-                  <ListItem
-                    key={Math.random().toString(36).substr(2, 9)}
-                    button
-                  >
+                  <ListItem key={Math.random().toString(36).substr(2, 9)}>
                     <ListItemIcon key={Math.random().toString(36).substr(2, 9)}>
                       {getIcons(element?.icon ?? "")}
                     </ListItemIcon>

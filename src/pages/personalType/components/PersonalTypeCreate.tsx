@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { BUTTON_NAME } from "helpers";
 import PersonalTypeInterface from "../PersonalTypeInterface";
 interface CreateProps {
   openModal: boolean;
@@ -64,7 +64,7 @@ const PersonalTypeCreate = (props: CreateProps) => {
               color="error"
               onClick={() => resetFormAndClose()}
             >
-              Cancelar
+              {BUTTON_NAME.CANCEL}
             </Button>
             <Button
               variant="contained"
@@ -72,7 +72,7 @@ const PersonalTypeCreate = (props: CreateProps) => {
               type="submit"
               disabled={!isValid}
             >
-              Crear
+              {BUTTON_NAME.CREATE}
             </Button>
           </DialogActions>
         </form>

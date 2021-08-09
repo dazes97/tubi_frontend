@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,6 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import PersonalTypeInterface from "../PersonalTypeInterface";
+import { BUTTON_NAME } from "helpers";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -72,7 +72,7 @@ const PersonalTypeEdit = (props: EditProps) => {
               color="error"
               onClick={() => resetFormAndClose()}
             >
-              Cancelar
+              {BUTTON_NAME.CANCEL}
             </Button>
             <Button
               variant="contained"
@@ -80,7 +80,7 @@ const PersonalTypeEdit = (props: EditProps) => {
               type="submit"
               disabled={!isValid}
             >
-              Actualizar
+              {BUTTON_NAME.UPDATE}
             </Button>
           </DialogActions>
         </form>

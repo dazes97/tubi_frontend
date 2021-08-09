@@ -1,5 +1,4 @@
-import API from "../../services/Api";
-import URL from "../../services/ApiUrl";
+import { API, URL } from "services";
 import PersonalTypeInterface from "./PersonalTypeInterface";
 export const personalTypeList = async () => {
   const { data } = await API.GET(URL.PERSONAL_TYPE.RESOURCE);

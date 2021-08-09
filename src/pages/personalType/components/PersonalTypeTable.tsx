@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
-import { CRUD_CODE } from "../../../helpers/";
+import { CRUD_CODE, BUTTON_NAME } from "helpers";
 interface EditDeleteProps {
   onChangeOperation: any;
   onChangeOpenModal: any;
@@ -46,7 +46,7 @@ const PersonalTypeTable = (props: EditDeleteProps) => {
                 handleOperation(CRUD_CODE.UPDATE, row);
               }}
             >
-              {"EDITAR"}
+              {BUTTON_NAME.EDIT}
             </Button>
             <Button
               style={{ margin: 8 }}
@@ -57,7 +57,7 @@ const PersonalTypeTable = (props: EditDeleteProps) => {
                 handleOperation(CRUD_CODE.DELETE, row);
               }}
             >
-              {"ELIMINAR"}
+              {BUTTON_NAME.DELETE}
             </Button>
           </div>
         );

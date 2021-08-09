@@ -1,5 +1,4 @@
-import API from "../services/Api";
-import { URL } from "../services/ApiUrl";
+import { URL, API } from "../services";
 export const AuthChecker = () => {
   const token = localStorage.getItem("token");
   if (!token) return false;
