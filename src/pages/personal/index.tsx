@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 import { Button, Grid, Typography, Breadcrumbs, Link } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE } from "helpers";
-import PersonalTypeInterface from "./PersonalTypeInterface";
-import Layout from "../template";
+import PersonalInterface from "./PersonalInterface";
 import {
-  PersonalTypeCreate,
-  PersonalTypeDelete,
-  PersonalTypeEdit,
-  PersonalTypeTable,
+  PersonalCreate,
+  PersonalDelete,
+  PersonalEdit,
+  PersonalTable,
 } from "./components";
 import {
-  personalTypeList,
-  personalTypeCreate,
-  personalTypeUpdate,
-  personalTypeDelete,
-} from "./PersonalTypeService";
-const PersonalType = () => {
+  personalList,
+  personalCreate,
+  personalUpdate,
+  personalDelete,
+} from "./PersonalService";
+const Personal = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [dataForm, setDataForm] = useState<PersonalTypeInterface>();
-  const [data, setData] = useState([]);
+  const [dataForm, setDataForm] = useState(null);
+  const [data, setData] = useState<PersonalInterface>();
   const [operation, setOperation] = useState<CRUD_CODE>();
   const [loading, setLoading] = useState(true);
   const onChangeData = (data: any) => {
@@ -31,7 +31,7 @@ const PersonalType = () => {
   };
   const onReset = () => {
     onChangeOpenModal();
-    setDataForm({ id: "", name: "" });
+    setDataForm(null);
   };
   const onChangeOperation = (operation: CRUD_CODE) => {
     setOperation(operation);
@@ -43,8 +43,8 @@ const PersonalType = () => {
     try {
       if (!loading) onChangeLoadingStatus();
       setTimeout(async () => {
-        const response = await personalTypeList();
-        setData(response.data ?? []);
+        const { data } = await personalList();
+        setData(data ?? []);
         onChangeLoadingStatus();
       }, 500);
     } catch (e) {
@@ -64,15 +64,15 @@ const PersonalType = () => {
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          await personalTypeCreate(formData);
+          await personalCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          await personalTypeUpdate(formData, formData.id);
+          await personalUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          await personalTypeDelete(formData.id);
+          await personalDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
@@ -98,7 +98,7 @@ const PersonalType = () => {
               {PAGE.INDEX.NAME}
             </Link>
             <Typography color="text.primary">
-              {PAGE.PERSONAL_TYPE.INDEX.NAME}
+              {PAGE.PERSONAL.INDEX.NAME}
             </Typography>
           </Breadcrumbs>
         </Grid>
@@ -120,7 +120,7 @@ const PersonalType = () => {
 
         <Grid item xs={12} md={12}>
           {!loading && (
-            <PersonalTypeTable
+            <PersonalTable
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}
               onChangeOperation={onChangeOperation}
@@ -129,14 +129,14 @@ const PersonalType = () => {
           )}
         </Grid>
         {operation && operation === CRUD_CODE.CREATE && (
-          <PersonalTypeCreate
+          <PersonalCreate
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.UPDATE && (
-          <PersonalTypeEdit
+          <PersonalEdit
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -144,7 +144,7 @@ const PersonalType = () => {
           />
         )}
         {operation && operation === CRUD_CODE.DELETE && (
-          <PersonalTypeDelete
+          <PersonalDelete
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -155,4 +155,4 @@ const PersonalType = () => {
     </Layout>
   );
 };
-export default PersonalType;
+export default Personal;

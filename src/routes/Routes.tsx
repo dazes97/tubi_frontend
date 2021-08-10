@@ -1,24 +1,25 @@
-import React from "react";
-import { Login, Register, Dashboard, PersonalType, ErrorPage } from "../pages";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import ProtectedRoute from "../components/ProtectedRoute";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import ProtectedRoute from "components/ProtectedRoute";
+import { PAGE } from "helpers";
+import { Login, Dashboard, PersonalType, ErrorPage, Personal } from "pages";
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/">
-        <Redirect to="/dashboard" />
-      </Route>
+      <Route exact path={PAGE.LOGIN.URL} component={Login}></Route>
       <ProtectedRoute
         exact
-        path="/dashboard"
+        path={PAGE.INDEX.URL}
         component={Dashboard}
       ></ProtectedRoute>
-      <Route exact path="/login" component={Login}></Route>
-      <Route exact path="/register" component={Register}></Route>
       <ProtectedRoute
         exact
-        path="/personalType"
+        path={PAGE.PERSONAL_TYPE.INDEX.URL}
         component={PersonalType}
+      ></ProtectedRoute>
+      <ProtectedRoute
+        exact
+        path={PAGE.PERSONAL.INDEX.URL}
+        component={Personal}
       ></ProtectedRoute>
       <Route component={ErrorPage}></Route>
     </Switch>
