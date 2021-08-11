@@ -1,5 +1,5 @@
 export interface PersonalInterface {
-  id: string;
+  id: number;
   bornDate: string;
   address: string;
   companyId: string;
@@ -9,16 +9,16 @@ export interface PersonalInterface {
   personalType: personalTypeInterface;
 }
 interface userInterface {
-  id: string;
-  gender: string | null;
+  id: number;
+  gender: number;
   email: string;
   lastName: string;
   name: string;
 }
 interface personalTypeInterface {
-  id: string;
+  id: number;
   name: string;
-  companyId?: string;
+  companyId?: number;
 }
 
 export default PersonalInterface;

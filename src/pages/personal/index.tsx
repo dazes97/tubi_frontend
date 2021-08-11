@@ -19,7 +19,7 @@ import {
 } from "./PersonalService";
 const Personal = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [dataForm, setDataForm] = useState(null);
+  const [dataForm, setDataForm] = useState<PersonalInterface>();
   const [data, setData] = useState<PersonalInterface>();
   const [operation, setOperation] = useState<CRUD_CODE>();
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,6 @@ const Personal = () => {
   };
   const onReset = () => {
     onChangeOpenModal();
-    setDataForm(null);
   };
   const onChangeOperation = (operation: CRUD_CODE) => {
     setOperation(operation);
@@ -48,6 +47,7 @@ const Personal = () => {
         onChangeLoadingStatus();
       }, 500);
     } catch (e) {
+      console.log("fetch personal", e);
       NotificationSystem({
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,

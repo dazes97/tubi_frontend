@@ -26,7 +26,6 @@ interface personalCreateInterface {
   gender: number;
   bornDate: Date;
   address: string;
-  companyId: number;
   dni: string;
   personalTypeId: number;
 }
@@ -36,7 +35,6 @@ const PersonalCreate = (props: CreateProps) => {
   const fetchPersonalTypeList = async () => {
     try {
       const { data } = await personalTypeList();
-      console.log("respose: ", data);
       setPersonalTypeSelect(data);
     } catch (e) {
       NotificationSystem({
@@ -60,7 +58,6 @@ const PersonalCreate = (props: CreateProps) => {
       lastName: "",
       address: "",
       bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
-      companyId: -1,
       personalTypeId: -1,
       dni: "",
       email: "",
@@ -69,9 +66,8 @@ const PersonalCreate = (props: CreateProps) => {
     },
   });
   const onSubmit: SubmitHandler<personalCreateInterface> = (data) => {
-    console.log("paso la validacion: ", data);
-    // onSendDataToServer(data);
-    // resetFormAndClose();
+    onSendDataToServer(data);
+    resetFormAndClose();
   };
   const resetFormAndClose = () => {
     onReset();
@@ -80,7 +76,6 @@ const PersonalCreate = (props: CreateProps) => {
       lastName: "",
       address: "",
       bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
-      companyId: -1,
       personalTypeId: -1,
       dni: "",
       email: "",

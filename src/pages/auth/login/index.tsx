@@ -15,8 +15,11 @@ import Container from "@material-ui/core/Container";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginSchema from "./LoginValidation";
 import { useHistory } from "react-router-dom";
-import { AuthLogin } from "../../../auth";
+import { AuthLogin } from "auth";
 import Footer from "./Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { NotificationSystem } from "components";
 interface IFormInputs {
   email: string;
   password: string;
@@ -41,14 +44,31 @@ export default function Login() {
         history.push("/");
         reset({ email: "", password: "", remember: false });
       } else {
-        console.log("fallo el login");
+        NotificationSystem({
+          type: "error",
+          message: "Hubo un problema intente nuevamente",
+        });
       }
     } catch (e) {
-      console.log("fallo la autenticacion");
+      NotificationSystem({
+        type: "error",
+        message: "Credenciales Invalidas",
+      });
     }
   };
   return (
     <Container component="main" maxWidth="xs">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <CssBaseline />
       <Box
         sx={{

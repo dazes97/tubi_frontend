@@ -31,7 +31,7 @@ const PersonalType = () => {
   };
   const onReset = () => {
     onChangeOpenModal();
-    setDataForm({ id: "", name: "" });
+    //setDataForm({ id: "", name: "" });
   };
   const onChangeOperation = (operation: CRUD_CODE) => {
     setOperation(operation);

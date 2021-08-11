@@ -28,8 +28,8 @@ export const PersonalDelete = (props: DeleteProps) => {
         <DialogTitle>Eliminacion de Tipo Personal</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Esta Seguro que desea eliminar el personal <strong>{data.name}</strong>
-            ?
+            ¿Esta Seguro que desea eliminar el personal
+            <strong> {data.user.name + " " + data.user.lastName}</strong>?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
