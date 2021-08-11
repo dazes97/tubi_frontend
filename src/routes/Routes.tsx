@@ -1,7 +1,14 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ProtectedRoute from "components/ProtectedRoute";
 import { PAGE } from "helpers";
-import { Login, Dashboard, PersonalType, ErrorPage, Personal } from "pages";
+import {
+  Login,
+  Dashboard,
+  PersonalType,
+  ErrorPage,
+  Personal,
+  Company,
+} from "pages";
 const Routes = () => (
   <BrowserRouter>
     <Switch>
@@ -20,6 +27,11 @@ const Routes = () => (
         exact
         path={PAGE.PERSONAL.INDEX.URL}
         component={Personal}
+      ></ProtectedRoute>
+      <ProtectedRoute
+        exact
+        path={PAGE.COMPANY.INDEX.URL}
+        component={Company}
       ></ProtectedRoute>
       <Route component={ErrorPage}></Route>
     </Switch>

@@ -19,5 +19,11 @@ const PAGE = {
       URL: "/personal",
     },
   },
+  COMPANY: {
+    INDEX: {
+      NAME: "Empresa",
+      URL: "/company",
+    },
+  },
 };
 export default PAGE;

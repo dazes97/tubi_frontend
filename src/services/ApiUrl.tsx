@@ -9,5 +9,8 @@ export const URL = {
   PERSONAL: {
     RESOURCE: "personal/",
   },
+  COMPANY: {
+    RESOURCE: "company/",
+  },
 };
 export default URL;

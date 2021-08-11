@@ -25,7 +25,7 @@ export const PersonalDelete = (props: DeleteProps) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>Eliminacion de Tipo Personal</DialogTitle>
+        <DialogTitle>Eliminar Tipo Personal</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             ¿Esta Seguro que desea eliminar el personal

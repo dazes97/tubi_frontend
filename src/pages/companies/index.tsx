@@ -5,26 +5,26 @@ import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import AddIcon from "@material-ui/icons/Add";
-import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE } from "helpers";
-import PersonalInterface from "./PersonalInterface";
+import CompanyInterface from "./CompanyInterface";
+import Layout from "../template";
 import {
-  PersonalCreate,
-  PersonalDelete,
-  PersonalEdit,
-  PersonalTable,
+  CompanyCreate,
+  CompanyDelete,
+  CompanyEdit,
+  CompanyTable,
 } from "./components";
 import {
-  personalList,
-  personalCreate,
-  personalUpdate,
-  personalDelete,
-} from "./PersonalService";
-const Personal = () => {
+  companyCreate,
+  companyDelete,
+  companyList,
+  companyUpdate,
+} from "./CompanyService";
+const Company = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [dataForm, setDataForm] = useState<PersonalInterface>();
-  const [data, setData] = useState<PersonalInterface>();
+  const [dataForm, setDataForm] = useState<CompanyInterface>();
+  const [data, setData] = useState([]);
   const [operation, setOperation] = useState<CRUD_CODE>();
   const [loading, setLoading] = useState(true);
   const onChangeData = (data: any) => {
@@ -35,6 +35,7 @@ const Personal = () => {
   };
   const onReset = () => {
     onChangeOpenModal();
+    //setDataForm({ id: "", name: "" });
   };
   const onChangeOperation = (operation: CRUD_CODE) => {
     setOperation(operation);
@@ -46,17 +47,16 @@ const Personal = () => {
     try {
       if (!loading) onChangeLoadingStatus();
       setTimeout(async () => {
-        const { data } = await personalList();
-        setData(data ?? []);
+        const response = await companyList();
+        console.log("response: ", response.data);
+        setData(response.data ?? []);
         onChangeLoadingStatus();
       }, 500);
     } catch (e) {
-      console.log("fetch personal", e);
       NotificationSystem({
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,
       });
-    } finally {
     }
   };
 
@@ -68,15 +68,15 @@ const Personal = () => {
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          await personalCreate(formData);
+          await companyCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          await personalUpdate(formData, formData.id);
+          await companyUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          await personalDelete(formData.id);
+          await companyDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
@@ -102,7 +102,7 @@ const Personal = () => {
               {PAGE.INDEX.NAME}
             </Link>
             <Typography color="text.primary">
-              {PAGE.PERSONAL.INDEX.NAME}
+              {PAGE.COMPANY.INDEX.NAME}
             </Typography>
           </Breadcrumbs>
         </Grid>
@@ -124,7 +124,7 @@ const Personal = () => {
 
         <Grid item xs={12} md={12}>
           {!loading && (
-            <PersonalTable
+            <CompanyTable
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}
               onChangeOperation={onChangeOperation}
@@ -133,14 +133,14 @@ const Personal = () => {
           )}
         </Grid>
         {operation && operation === CRUD_CODE.CREATE && (
-          <PersonalCreate
+          <CompanyCreate
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.UPDATE && (
-          <PersonalEdit
+          <CompanyEdit
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -148,7 +148,7 @@ const Personal = () => {
           />
         )}
         {operation && operation === CRUD_CODE.DELETE && (
-          <PersonalDelete
+          <CompanyDelete
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -159,4 +159,4 @@ const Personal = () => {
     </Layout>
   );
 };
-export default Personal;
+export default Company;

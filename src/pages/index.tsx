@@ -5,6 +5,7 @@ import Layout from "./template";
 import PersonalType from "./personalType";
 import Personal from "./personal";
 import ErrorPage from "./error/ErrorPage";
+import Company from "./companies";
 export {
   Login,
   Register,
@@ -13,4 +14,5 @@ export {
   PersonalType,
   ErrorPage,
   Personal,
+  Company,
 };

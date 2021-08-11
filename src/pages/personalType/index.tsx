@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button, Grid, Typography, Breadcrumbs, Link } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
 import AddIcon from "@material-ui/icons/Add";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE } from "helpers";
@@ -52,7 +56,6 @@ const PersonalType = () => {
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,
       });
-    } finally {
     }
   };
 

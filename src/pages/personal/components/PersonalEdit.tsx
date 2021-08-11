@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { editValidationSchema } from "./schemaValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { BUTTON_NAME } from "helpers";
+import MenuItem from "@material-ui/core/MenuItem"
 import { DateTime } from "luxon";
-import { Grid, MenuItem } from "@material-ui/core";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { editValidationSchema } from "./schemaValidation";
+import { BUTTON_NAME } from "helpers";
 import { personalTypeList } from "pages/personalType/PersonalTypeService";
 import { NotificationSystem } from "components";
 
@@ -84,10 +85,24 @@ const PersonalEdit = (props: EditProps) => {
   }, [data, reset]);
   const onSubmit: SubmitHandler<personalEditInterface> = (formData) => {
     onSendDataToServer({ ...formData, id: data.id });
-    resetFormAndClose();
+    closeForm();
   };
-  const resetFormAndClose = () => {
+  const closeForm = () => {
     onReset();
+  };
+  const resetDefaultValuesForm = () => {
+    closeForm();
+    reset({
+      name: data.user.name,
+      lastName: data.user.lastName,
+      address: data.address,
+      bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
+      personalTypeId: data.personalType.id,
+      dni: data.dni,
+      email: data.user.email,
+      gender: data.user.gender ?? "",
+      password: "",
+    });
   };
 
   return (
@@ -326,7 +341,7 @@ const PersonalEdit = (props: EditProps) => {
             <Button
               variant="contained"
               color="error"
-              onClick={() => resetFormAndClose()}
+              onClick={() => resetDefaultValuesForm()}
             >
               {BUTTON_NAME.CANCEL}
             </Button>

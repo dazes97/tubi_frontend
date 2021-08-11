@@ -11,6 +11,7 @@ import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import PersonIcon from "@material-ui/icons/Person";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
 import { Link } from "react-router-dom";
 import MenuItems from "./TemplateMenuItem";
 // const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -30,6 +31,9 @@ const getIcons = (iconName: string) => {
     }
     case "AccessibilityIcon": {
       return <AccessibilityIcon />;
+    }
+    case "LocationCityIcon": {
+      return <LocationCityIcon />;
     }
     default: {
       return <DashboardIcon />;

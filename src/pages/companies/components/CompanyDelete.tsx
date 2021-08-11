@@ -11,7 +11,7 @@ interface DeleteProps {
   onReset: any;
   onSendDataToServer: any;
 }
-export const PersonalTypeDelete = (props: DeleteProps) => {
+export const CompanyDelete = (props: DeleteProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
   const submitDeleteConfirmation = () => {
     onSendDataToServer(data);
@@ -25,11 +25,11 @@ export const PersonalTypeDelete = (props: DeleteProps) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>Eliminar Tipo Personal</DialogTitle>
+        <DialogTitle>Eliminar Empresa</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Esta Seguro que desea eliminar el tipo <strong>{data.name}</strong>
-            ?
+            ¿Esta Seguro que desea eliminar la empresa
+            <strong> "{data.name}" </strong>?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -48,4 +48,4 @@ export const PersonalTypeDelete = (props: DeleteProps) => {
     </div>
   );
 };
-export default PersonalTypeDelete;
+export default CompanyDelete;

@@ -20,22 +20,25 @@ const PersonalTypeEdit = (props: EditProps) => {
     handleSubmit,
     control,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<PersonalTypeInterface>({
     defaultValues: {
       name: data.name,
     },
   });
   useEffect(() => {
-    reset({ name: data.name ?? "" });
+    reset({ name: data.name });
   }, [data, reset]);
   const onSubmit: SubmitHandler<PersonalTypeInterface> = (formData) => {
     onSendDataToServer({ id: data.id, name: formData.name });
-    resetFormAndClose();
+    closeForm();
   };
-  const resetFormAndClose = () => {
-    reset({ name: "" });
+  const closeForm = () => {
     onReset();
+  };
+  const resetDefaultValuesForm = () => {
+    closeForm();
+    reset({ name: data.name ?? "" });
   };
 
   return (
@@ -70,16 +73,11 @@ const PersonalTypeEdit = (props: EditProps) => {
             <Button
               variant="contained"
               color="error"
-              onClick={() => resetFormAndClose()}
+              onClick={() => resetDefaultValuesForm()}
             >
               {BUTTON_NAME.CANCEL}
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!isValid}
-            >
+            <Button variant="contained" color="primary" type="submit">
               {BUTTON_NAME.UPDATE}
             </Button>
           </DialogActions>
