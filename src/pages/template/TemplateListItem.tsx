@@ -43,7 +43,7 @@ const getIcons = (iconName: string) => {
 export const MenuItemsList = () => {
   return (
     <>
-      {MenuItems.map((packageElement: any, index: any) => {
+      {MenuItems().map((packageElement: any, index: any) => {
         return (
           <div key={Math.random().toString(36).substr(2, 9)}>
             <ListSubheader key={Math.random().toString(36).substr(2, 9)} inset>

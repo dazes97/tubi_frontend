@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import ProtectedRoute from "components/ProtectedRoute";
+import { AdminRoute, ProtectedRoute, CompanyOwnerRoute } from "components";
 import { PAGE } from "helpers";
 import {
   Login,
@@ -18,22 +18,22 @@ const Routes = () => (
         path={PAGE.INDEX.URL}
         component={Dashboard}
       ></ProtectedRoute>
-      <ProtectedRoute
+      <AdminRoute
         exact
         path={PAGE.PERSONAL_TYPE.INDEX.URL}
         component={PersonalType}
-      ></ProtectedRoute>
-      <ProtectedRoute
+      ></AdminRoute>
+      <CompanyOwnerRoute
         exact
         path={PAGE.PERSONAL.INDEX.URL}
         component={Personal}
-      ></ProtectedRoute>
-      <ProtectedRoute
+      ></CompanyOwnerRoute>
+      <AdminRoute
         exact
         path={PAGE.COMPANY.INDEX.URL}
         component={Company}
-      ></ProtectedRoute>
-      <Route component={ErrorPage}></Route>
+      ></AdminRoute>
+      <Route exact path={PAGE.NOT_FOUND.URL} component={ErrorPage}></Route>
     </Switch>
   </BrowserRouter>
 );

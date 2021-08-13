@@ -1,4 +1,8 @@
 const PAGE = {
+  NOT_FOUND: {
+    NAME: "No encontrada",
+    URL: "/error",
+  },
   LOGIN: {
     NAME: "Iniciar Sesion",
     URL: "/login",

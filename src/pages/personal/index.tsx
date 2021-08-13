@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link";
 import AddIcon from "@material-ui/icons/Add";
 import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
-import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE } from "helpers";
+import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
 import PersonalInterface from "./PersonalInterface";
 import {
   PersonalCreate,
@@ -39,17 +39,14 @@ const Personal = () => {
   const onChangeOperation = (operation: CRUD_CODE) => {
     setOperation(operation);
   };
-  const onChangeLoadingStatus = () => {
-    setLoading((prev) => !prev);
-  };
-  const fetchData = async () => {
+  const fetchData = useCallback(() => {
     try {
-      if (!loading) onChangeLoadingStatus();
+      setLoading(true);
       setTimeout(async () => {
         const { data } = await personalList();
         setData(data ?? []);
-        onChangeLoadingStatus();
-      }, 500);
+        setLoading(false);
+      }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {
       console.log("fetch personal", e);
       NotificationSystem({
@@ -58,11 +55,11 @@ const Personal = () => {
       });
     } finally {
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
   const onSendDataToServer = async (formData: any) => {
     try {
       let notificationMessage = "";

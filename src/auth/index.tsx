@@ -1,3 +1,4 @@
+import { ROLE_ID } from "helpers";
 import { URL, API } from "../services";
 export const AuthChecker = () => {
   const token = localStorage.getItem("token");
@@ -33,4 +34,19 @@ export const AuthLogout = async () => {
     return true;
   }
   return false;
+};
+export const roleChecker = () => {
+  const user = localStorage.getItem("user");
+  if (!user) return -1;
+  const userData = JSON.parse(user);
+  if (userData?.roleId === null) return -1;
+
+  switch (userData.roleId) {
+    case ROLE_ID.ADMINISTRADOR:
+      return 0;
+    case ROLE_ID.PROPIETARIO:
+      return 1;
+    default:
+      return 2;
+  }
 };

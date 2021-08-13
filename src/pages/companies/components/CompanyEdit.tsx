@@ -9,6 +9,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import CompanyInterface from "../CompanyInterface";
 import { BUTTON_NAME } from "helpers";
+import MenuItem from "@material-ui/core/MenuItem";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -130,6 +131,32 @@ const CompanyEdit = (props: EditProps) => {
                       variant="outlined"
                       {...field}
                     />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.status?.type === "required"}
+                      helperText={
+                        errors.status?.type === "required" &&
+                        "Estado es Requerido"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="status"
+                      label="Estado"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value={1}>Activo</MenuItem>
+                      <MenuItem value={2}>No activo</MenuItem>
+                    </TextField>
                   )}
                 />
               </Grid>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -6,7 +6,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import MenuItem from "@material-ui/core/MenuItem"
+import MenuItem from "@material-ui/core/MenuItem";
 import { DateTime } from "luxon";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,7 +14,8 @@ import { editValidationSchema } from "./schemaValidation";
 import { BUTTON_NAME } from "helpers";
 import { personalTypeList } from "pages/personalType/PersonalTypeService";
 import { NotificationSystem } from "components";
-
+import { roleChecker } from "auth";
+import { ROLE_ID } from "helpers";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -54,7 +55,7 @@ const PersonalEdit = (props: EditProps) => {
       password: "",
     },
   });
-  const fetchPersonalTypeList = async () => {
+  const fetchPersonalTypeList = useCallback(async () => {
     try {
       const response = await personalTypeList();
       setPersonalTypeSelect(
@@ -66,10 +67,10 @@ const PersonalEdit = (props: EditProps) => {
         message: "Hubo un error al listar tipo Personal intente nuevamente",
       });
     }
-  };
+  }, [data]);
   useEffect(() => {
     fetchPersonalTypeList();
-  }, []);
+  }, [fetchPersonalTypeList]);
   useEffect(() => {
     reset({
       name: data.user.name,
