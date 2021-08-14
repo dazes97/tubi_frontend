@@ -29,6 +29,11 @@ const MenuItems = () => {
               name: PAGE.PERSONAL_TYPE.INDEX.NAME,
               icon: "AccessibilityIcon",
             },
+            {
+              url: PAGE.COMPANY_OWNER.INDEX.URL,
+              name: PAGE.COMPANY_OWNER.INDEX.NAME,
+              icon: "PersonIcon",
+            },
           ],
         },
       ];

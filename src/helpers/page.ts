@@ -17,6 +17,12 @@ const PAGE = {
       URL: "/personalType",
     },
   },
+  COMPANY_OWNER: {
+    INDEX: {
+      NAME: "Propietario Empresa",
+      URL: "/companyOwner",
+    },
+  },
   PERSONAL: {
     INDEX: {
       NAME: "Personal",

@@ -8,6 +8,7 @@ import {
   ErrorPage,
   Personal,
   Company,
+  CompanyOwner,
 } from "pages";
 const Routes = () => (
   <BrowserRouter>
@@ -22,6 +23,11 @@ const Routes = () => (
         exact
         path={PAGE.PERSONAL_TYPE.INDEX.URL}
         component={PersonalType}
+      ></AdminRoute>
+      <AdminRoute
+        exact
+        path={PAGE.COMPANY_OWNER.INDEX.URL}
+        component={CompanyOwner}
       ></AdminRoute>
       <CompanyOwnerRoute
         exact

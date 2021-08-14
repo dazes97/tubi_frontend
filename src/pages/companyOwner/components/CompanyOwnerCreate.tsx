@@ -1,106 +1,89 @@
-import { useCallback, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import MenuItem from "@material-ui/core/MenuItem";
-import { DateTime } from "luxon";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { editValidationSchema } from "./schemaValidation";
-import { BUTTON_NAME } from "helpers";
-import { personalTypeList } from "pages/personalType/PersonalTypeService";
+import { DateTime } from "luxon";
+import { BUTTON_NAME, ROLE_ID } from "helpers";
+import { Grid, MenuItem } from "@material-ui/core";
+import { companyList } from "../../companies/CompanyService";
+import { useEffect, useState } from "react";
 import { NotificationSystem } from "components";
-interface EditProps {
-  data: any;
+import { createValidationSchema } from "./schemaValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
+interface CreateProps {
   openModal: boolean;
   onReset: any;
   onSendDataToServer: any;
 }
-interface personalEditInterface {
+interface personalCreateInterface {
   name: string;
   lastName: string;
   email: string;
   password: string;
-  gender: string;
+  gender: number;
   bornDate: Date;
   address: string;
   dni: string;
-  personalTypeId: string;
+  personalTypeId: number;
+  companyId: number;
 }
-const PersonalEdit = (props: EditProps) => {
-  const { data, openModal, onReset, onSendDataToServer } = props;
-  const [personalTypeSelect, setPersonalTypeSelect] = useState([]);
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<personalEditInterface>({
-    resolver: yupResolver(editValidationSchema),
-    defaultValues: {
-      name: data.user.name,
-      lastName: data.user.lastName,
-      address: data.address,
-      bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      dni: data.dni,
-      email: data.user.email,
-      gender: data.user.gender ?? "",
-      password: "",
-    },
-  });
-  const fetchPersonalTypeList = useCallback(async () => {
+const PersonalCreate = (props: CreateProps) => {
+  const { openModal, onReset, onSendDataToServer } = props;
+  const [companySelect, setCompanySelect] = useState([]);
+  const fetchPersonalTypeList = async () => {
     try {
-      const response = await personalTypeList();
-      setPersonalTypeSelect(
-        response.data.filter((e: any) => e.id !== data.personalType.id)
-      );
+      const { data } = await companyList();
+      setCompanySelect(data);
     } catch (e) {
       NotificationSystem({
         type: "error",
         message: "Hubo un error al listar tipo Personal intente nuevamente",
       });
     }
-  }, [data]);
+  };
   useEffect(() => {
     fetchPersonalTypeList();
-  }, [fetchPersonalTypeList]);
-  useEffect(() => {
-    reset({
-      name: data.user.name,
-      lastName: data.user.lastName,
-      address: data.address,
-      bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      dni: data.dni,
-      email: data.user.email,
-      gender: data.user.gender ?? "",
+  }, []);
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<personalCreateInterface>({
+    resolver: yupResolver(createValidationSchema),
+    defaultValues: {
+      name: "",
+      lastName: "",
+      address: "",
+      bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
+      personalTypeId: ROLE_ID.PROPIETARIO,
+      dni: "",
+      email: "",
+      gender: -1,
       password: "",
-    });
-  }, [data, reset]);
-  const onSubmit: SubmitHandler<personalEditInterface> = (formData) => {
-    onSendDataToServer({ ...formData, id: data.id });
-    closeForm();
+      companyId: -1,
+    },
+  });
+  const onSubmit: SubmitHandler<personalCreateInterface> = (data) => {
+    onSendDataToServer(data);
+    resetFormAndClose();
   };
-  const closeForm = () => {
+  const resetFormAndClose = () => {
     onReset();
-  };
-  const resetDefaultValuesForm = () => {
-    closeForm();
     reset({
-      name: data.user.name,
-      lastName: data.user.lastName,
-      address: data.address,
-      bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      dni: data.dni,
-      email: data.user.email,
-      gender: data.user.gender ?? "",
+      name: "",
+      lastName: "",
+      address: "",
+      bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
+      personalTypeId: ROLE_ID.PROPIETARIO,
+      dni: "",
+      email: "",
+      gender: -1,
       password: "",
+      companyId: -1,
     });
   };
 
@@ -108,7 +91,7 @@ const PersonalEdit = (props: EditProps) => {
     <div>
       <Dialog fullWidth open={openModal} onClose={onReset}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Editar Personal</DialogTitle>
+          <DialogTitle>Crear Propietario Empresa</DialogTitle>
           <DialogContent>
             <Grid container spacing={1}>
               <Grid item xs={12} md={6}>
@@ -198,13 +181,12 @@ const PersonalEdit = (props: EditProps) => {
                       type="text"
                       fullWidth
                       variant="outlined"
-                      disabled
                       {...field}
                     />
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="bornDate"
                   control={control}
@@ -228,7 +210,7 @@ const PersonalEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="gender"
                   control={control}
@@ -237,7 +219,7 @@ const PersonalEdit = (props: EditProps) => {
                       error={errors.gender?.type === "required"}
                       helperText={
                         errors.gender?.type === "required" &&
-                        "Genero es Requerido"
+                        "Sexo es Requerido"
                       }
                       autoFocus
                       margin="dense"
@@ -248,39 +230,37 @@ const PersonalEdit = (props: EditProps) => {
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={-1}>Ninguno</MenuItem>
-                      <MenuItem value={1}>Hombre</MenuItem>
-                      <MenuItem value={2}>Mujer</MenuItem>
-                      <MenuItem value={3}>No responde</MenuItem>
+                      <MenuItem value="-1">Ninguno</MenuItem>
+                      <MenuItem value="1">Hombre</MenuItem>
+                      <MenuItem value="2">Mujer</MenuItem>
+                      <MenuItem value="3">No responde</MenuItem>
                     </TextField>
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={12}>
                 <Controller
-                  name="personalTypeId"
+                  name="companyId"
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      error={errors.personalTypeId?.type === "min"}
+                      error={errors.companyId?.type === "min"}
                       helperText={
-                        errors.personalTypeId?.type === "min" &&
-                        "Tipo personal es requerido"
+                        errors.companyId?.type === "min" &&
+                        "Empresa es requerido"
                       }
                       autoFocus
                       margin="dense"
-                      id="personalTypeId"
-                      label="Tipo Personal"
+                      id="companyId"
+                      label="Empresa"
                       select
                       fullWidth
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={data.personalType.id}>
-                        {data.personalType.name}
-                      </MenuItem>
-                      {personalTypeSelect &&
-                        personalTypeSelect.map((e: any, key) => (
+                      <MenuItem value="-1">Seleccione</MenuItem>
+                      {companySelect &&
+                        companySelect.map((e: any, key) => (
                           <MenuItem key={key} value={e.id}>
                             {e.name}
                           </MenuItem>
@@ -306,7 +286,6 @@ const PersonalEdit = (props: EditProps) => {
                       label="Email"
                       fullWidth
                       variant="outlined"
-                      disabled
                       {...field}
                     />
                   )}
@@ -321,7 +300,7 @@ const PersonalEdit = (props: EditProps) => {
                       error={errors.password?.type === "min"}
                       helperText={
                         errors.password?.type === "min" &&
-                        "Contraseña 8 caracteres como minimo"
+                        "Contraseña 6 caracteres como minimo"
                       }
                       autoFocus
                       margin="dense"
@@ -340,12 +319,12 @@ const PersonalEdit = (props: EditProps) => {
             <Button
               variant="contained"
               color="error"
-              onClick={() => resetDefaultValuesForm()}
+              onClick={() => resetFormAndClose()}
             >
               {BUTTON_NAME.CANCEL}
             </Button>
             <Button variant="contained" color="primary" type="submit">
-              {BUTTON_NAME.UPDATE}
+              {BUTTON_NAME.CREATE}
             </Button>
           </DialogActions>
         </form>
@@ -353,4 +332,4 @@ const PersonalEdit = (props: EditProps) => {
     </div>
   );
 };
-export default PersonalEdit;
+export default PersonalCreate;

@@ -6,6 +6,7 @@ import PersonalType from "./personalType";
 import Personal from "./personal";
 import ErrorPage from "./error/ErrorPage";
 import Company from "./companies";
+import CompanyOwner from "./companyOwner";
 export {
   Login,
   Register,
@@ -15,4 +16,5 @@ export {
   ErrorPage,
   Personal,
   Company,
+  CompanyOwner,
 };

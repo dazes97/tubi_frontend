@@ -5,26 +5,26 @@ import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import AddIcon from "@material-ui/icons/Add";
+import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
-import CompanyInterface from "./CompanyInterface";
-import Layout from "../template";
+import CompanyOwnerInterface from "./CompanyOwnerInterface";
 import {
-  CompanyCreate,
-  CompanyDelete,
-  CompanyEdit,
-  CompanyTable,
+  CompanyOwnerCreate,
+  CompanyOwnerDelete,
+  CompanyOwnerEdit,
+  CompanyOwnerTable,
 } from "./components";
 import {
-  companyCreate,
-  companyDelete,
-  companyList,
-  companyUpdate,
-} from "./CompanyService";
-const Company = () => {
+  companyOwnerList,
+  companyOwnerCreate,
+  companyOwnerUpdate,
+  companyOwnerDelete,
+} from "./CompanyOwnerService";
+const CompanyOwner = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [dataForm, setDataForm] = useState<CompanyInterface>();
-  const [data, setData] = useState([]);
+  const [dataForm, setDataForm] = useState<CompanyOwnerInterface>();
+  const [data, setData] = useState<CompanyOwnerInterface>();
   const [operation, setOperation] = useState<CRUD_CODE>();
   const [loading, setLoading] = useState(true);
   const onChangeData = (data: any) => {
@@ -43,11 +43,12 @@ const Company = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const response = await companyList();
-        setData(response.data ?? []);
+        const { data } = await companyOwnerList();
+        setData(data ?? []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {
+      console.log("fetch personal", e);
       NotificationSystem({
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,
@@ -63,15 +64,15 @@ const Company = () => {
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          await companyCreate(formData);
+          await companyOwnerCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          await companyUpdate(formData, formData.id);
+          await companyOwnerUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          await companyDelete(formData.id);
+          await companyOwnerDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
@@ -97,7 +98,7 @@ const Company = () => {
               {PAGE.INDEX.NAME}
             </Link>
             <Typography color="text.primary">
-              {PAGE.COMPANY.INDEX.NAME}
+              {PAGE.COMPANY_OWNER.INDEX.NAME}
             </Typography>
           </Breadcrumbs>
         </Grid>
@@ -119,7 +120,7 @@ const Company = () => {
 
         <Grid item xs={12} md={12}>
           {!loading && (
-            <CompanyTable
+            <CompanyOwnerTable
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}
               onChangeOperation={onChangeOperation}
@@ -128,14 +129,14 @@ const Company = () => {
           )}
         </Grid>
         {operation && operation === CRUD_CODE.CREATE && (
-          <CompanyCreate
+          <CompanyOwnerCreate
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.UPDATE && (
-          <CompanyEdit
+          <CompanyOwnerEdit
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -143,7 +144,7 @@ const Company = () => {
           />
         )}
         {operation && operation === CRUD_CODE.DELETE && (
-          <CompanyDelete
+          <CompanyOwnerDelete
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -154,4 +155,4 @@ const Company = () => {
     </Layout>
   );
 };
-export default Company;
+export default CompanyOwner;

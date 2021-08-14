@@ -12,5 +12,8 @@ export const URL = {
   COMPANY: {
     RESOURCE: "company/",
   },
+  COMPANY_OWNER: {
+    RESOURCE: "companyOwner/",
+  },
 };
 export default URL;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -12,8 +12,6 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editValidationSchema } from "./schemaValidation";
 import { BUTTON_NAME } from "helpers";
-import { personalTypeList } from "pages/personalType/PersonalTypeService";
-import { NotificationSystem } from "components";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -30,10 +28,10 @@ interface personalEditInterface {
   address: string;
   dni: string;
   personalTypeId: string;
+  companyName: string;
 }
 const PersonalEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
-  const [personalTypeSelect, setPersonalTypeSelect] = useState([]);
   const {
     handleSubmit,
     control,
@@ -51,24 +49,9 @@ const PersonalEdit = (props: EditProps) => {
       email: data.user.email,
       gender: data.user.gender ?? "",
       password: "",
+      companyName: data.company.name,
     },
   });
-  const fetchPersonalTypeList = useCallback(async () => {
-    try {
-      const response = await personalTypeList();
-      setPersonalTypeSelect(
-        response.data.filter((e: any) => e.id !== data.personalType.id)
-      );
-    } catch (e) {
-      NotificationSystem({
-        type: "error",
-        message: "Hubo un error al listar tipo Personal intente nuevamente",
-      });
-    }
-  }, [data]);
-  useEffect(() => {
-    fetchPersonalTypeList();
-  }, [fetchPersonalTypeList]);
   useEffect(() => {
     reset({
       name: data.user.name,
@@ -80,6 +63,7 @@ const PersonalEdit = (props: EditProps) => {
       email: data.user.email,
       gender: data.user.gender ?? "",
       password: "",
+      companyName: data.company.name,
     });
   }, [data, reset]);
   const onSubmit: SubmitHandler<personalEditInterface> = (formData) => {
@@ -101,6 +85,7 @@ const PersonalEdit = (props: EditProps) => {
       email: data.user.email,
       gender: data.user.gender ?? "",
       password: "",
+      companyName: data.company.name,
     });
   };
 
@@ -108,7 +93,7 @@ const PersonalEdit = (props: EditProps) => {
     <div>
       <Dialog fullWidth open={openModal} onClose={onReset}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Editar Personal</DialogTitle>
+          <DialogTitle>Editar Propietario Empresa</DialogTitle>
           <DialogContent>
             <Grid container spacing={1}>
               <Grid item xs={12} md={6}>
@@ -198,13 +183,12 @@ const PersonalEdit = (props: EditProps) => {
                       type="text"
                       fullWidth
                       variant="outlined"
-                      disabled
                       {...field}
                     />
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="bornDate"
                   control={control}
@@ -228,7 +212,7 @@ const PersonalEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="gender"
                   control={control}
@@ -256,36 +240,21 @@ const PersonalEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={12}>
                 <Controller
-                  name="personalTypeId"
+                  name="companyName"
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      error={errors.personalTypeId?.type === "min"}
-                      helperText={
-                        errors.personalTypeId?.type === "min" &&
-                        "Tipo personal es requerido"
-                      }
                       autoFocus
                       margin="dense"
-                      id="personalTypeId"
-                      label="Tipo Personal"
-                      select
+                      id="companyName"
+                      label="Nomber Empresa"
                       fullWidth
                       variant="outlined"
+                      disabled
                       {...field}
-                    >
-                      <MenuItem value={data.personalType.id}>
-                        {data.personalType.name}
-                      </MenuItem>
-                      {personalTypeSelect &&
-                        personalTypeSelect.map((e: any, key) => (
-                          <MenuItem key={key} value={e.id}>
-                            {e.name}
-                          </MenuItem>
-                        ))}
-                    </TextField>
+                    />
                   )}
                 />
               </Grid>
@@ -306,7 +275,6 @@ const PersonalEdit = (props: EditProps) => {
                       label="Email"
                       fullWidth
                       variant="outlined"
-                      disabled
                       {...field}
                     />
                   )}
