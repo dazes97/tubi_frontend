@@ -5,7 +5,7 @@ import { ROLE_ID } from "helpers";
 function PersonalRoute({ component: Component, ...restOfProps }: any) {
   if (!AuthChecker()) {
     return (
-      <Route {...restOfProps} render={(props) => <Redirect to={"/login"} />} />
+      <Route {...restOfProps} render={() => <Redirect to={URL.AUTH.LOGIN} />} />
     );
   }
   return (

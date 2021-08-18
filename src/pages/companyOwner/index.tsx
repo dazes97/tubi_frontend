@@ -48,7 +48,6 @@ const CompanyOwner = () => {
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {
-      console.log("fetch personal", e);
       NotificationSystem({
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,

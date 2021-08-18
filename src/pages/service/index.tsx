@@ -8,23 +8,23 @@ import AddIcon from "@material-ui/icons/Add";
 import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
-import PersonalInterface from "./PersonalInterface";
+import ServiceInterface from "./ServiceInterface";
 import {
-  PersonalCreate,
-  PersonalDelete,
-  PersonalEdit,
-  PersonalTable,
+  ServiceCreate,
+  ServiceDelete,
+  ServiceEdit,
+  ServiceTable,
 } from "./components";
 import {
-  personalList,
-  personalCreate,
-  personalUpdate,
-  personalDelete,
-} from "./PersonalService";
-const Personal = () => {
+  serviceCreate,
+  serviceDelete,
+  serviceList,
+  serviceUpdate,
+} from "./ServiceService";
+const Service = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [dataForm, setDataForm] = useState<PersonalInterface>();
-  const [data, setData] = useState<PersonalInterface>();
+  const [dataForm, setDataForm] = useState<ServiceInterface>();
+  const [data, setData] = useState<ServiceInterface>();
   const [operation, setOperation] = useState<CRUD_CODE>();
   const [loading, setLoading] = useState(true);
   const onChangeData = (data: any) => {
@@ -43,7 +43,7 @@ const Personal = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await personalList();
+        const { data } = await serviceList();
         setData(data ?? []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
@@ -52,7 +52,6 @@ const Personal = () => {
         type: "error",
         message: CRUD_MESSAGE.READ.ERROR,
       });
-    } finally {
     }
   }, []);
 
@@ -64,15 +63,15 @@ const Personal = () => {
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          await personalCreate(formData);
+          await serviceCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          await personalUpdate(formData, formData.id);
+          await serviceUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          await personalDelete(formData.id);
+          await serviceDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
@@ -98,7 +97,7 @@ const Personal = () => {
               {PAGE.INDEX.NAME}
             </Link>
             <Typography color="text.primary">
-              {PAGE.PERSONAL.INDEX.NAME}
+              {PAGE.SERVICE.INDEX.NAME}
             </Typography>
           </Breadcrumbs>
         </Grid>
@@ -120,7 +119,7 @@ const Personal = () => {
 
         <Grid item xs={12} md={12}>
           {!loading && (
-            <PersonalTable
+            <ServiceTable
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}
               onChangeOperation={onChangeOperation}
@@ -129,14 +128,14 @@ const Personal = () => {
           )}
         </Grid>
         {operation && operation === CRUD_CODE.CREATE && (
-          <PersonalCreate
+          <ServiceCreate
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.UPDATE && (
-          <PersonalEdit
+          <ServiceEdit
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -144,7 +143,7 @@ const Personal = () => {
           />
         )}
         {operation && operation === CRUD_CODE.DELETE && (
-          <PersonalDelete
+          <ServiceDelete
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             data={dataForm}
@@ -155,4 +154,4 @@ const Personal = () => {
     </Layout>
   );
 };
-export default Personal;
+export default Service;

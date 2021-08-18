@@ -5,8 +5,9 @@ import Layout from "./template";
 import PersonalType from "./personalType";
 import Personal from "./personal";
 import ErrorPage from "./error/ErrorPage";
-import Company from "./companies";
+import Company from "./company/";
 import CompanyOwner from "./companyOwner";
+import Service from "./service";
 export {
   Login,
   Register,
@@ -17,4 +18,5 @@ export {
   Personal,
   Company,
   CompanyOwner,
+  Service,
 };

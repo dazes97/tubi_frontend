@@ -27,16 +27,6 @@ function Copyright(props: any) {
 }
 
 export default function ErrorPage() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
@@ -72,12 +62,7 @@ export default function ErrorPage() {
           <Typography component="h1" variant="h5">
             Pagina No Encontrada
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>

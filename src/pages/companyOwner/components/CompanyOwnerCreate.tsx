@@ -8,7 +8,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { DateTime } from "luxon";
 import { BUTTON_NAME, ROLE_ID } from "helpers";
 import { Grid, MenuItem } from "@material-ui/core";
-import { companyList } from "../../companies/CompanyService";
+import { companyList } from "../../company/CompanyService";
 import { useEffect, useState } from "react";
 import { NotificationSystem } from "components";
 import { createValidationSchema } from "./schemaValidation";

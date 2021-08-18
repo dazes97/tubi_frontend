@@ -9,6 +9,7 @@ import {
   Personal,
   Company,
   CompanyOwner,
+  Service,
 } from "pages";
 const Routes = () => (
   <BrowserRouter>
@@ -33,6 +34,11 @@ const Routes = () => (
         exact
         path={PAGE.PERSONAL.INDEX.URL}
         component={Personal}
+      ></CompanyOwnerRoute>
+      <CompanyOwnerRoute
+        exact
+        path={PAGE.SERVICE.INDEX.URL}
+        component={Service}
       ></CompanyOwnerRoute>
       <AdminRoute
         exact

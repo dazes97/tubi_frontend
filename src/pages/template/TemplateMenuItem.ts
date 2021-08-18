@@ -53,9 +53,14 @@ const MenuItems = () => {
           name: "Administracion",
           elements: [
             {
-              url: PAGE.PERSONAL.INDEX.NAME,
+              url: PAGE.PERSONAL.INDEX.URL,
               name: PAGE.PERSONAL.INDEX.NAME,
               icon: "PersonIcon",
+            },
+            {
+              url: PAGE.SERVICE.INDEX.URL,
+              name: PAGE.SERVICE.INDEX.NAME,
+              icon: "LocationCityIcon",
             },
           ],
         },

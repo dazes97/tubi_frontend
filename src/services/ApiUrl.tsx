@@ -1,6 +1,6 @@
 export const URL = {
   AUTH: {
-    LOGIN: "auth",
+    LOGIN: "login",
     LOGOUT: "logout",
   },
   PERSONAL_TYPE: {
@@ -14,6 +14,9 @@ export const URL = {
   },
   COMPANY_OWNER: {
     RESOURCE: "companyOwner/",
+  },
+  SERVICE: {
+    RESOURCE: "service/",
   },
 };
 export default URL;

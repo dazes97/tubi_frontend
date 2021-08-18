@@ -35,5 +35,11 @@ const PAGE = {
       URL: "/company",
     },
   },
+  SERVICE: {
+    INDEX: {
+      NAME: "Servicio",
+      URL: "/service",
+    },
+  },
 };
 export default PAGE;
