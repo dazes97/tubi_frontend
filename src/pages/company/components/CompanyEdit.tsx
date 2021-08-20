@@ -58,7 +58,7 @@ const CompanyEdit = (props: EditProps) => {
 
   return (
     <div>
-      <Dialog open={openModal} onClose={onReset}>
+      <Dialog open={openModal} onClose={resetDefaultValuesForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Editar Empresa</DialogTitle>
           <DialogContent>

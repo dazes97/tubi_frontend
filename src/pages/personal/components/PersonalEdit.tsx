@@ -106,7 +106,7 @@ const PersonalEdit = (props: EditProps) => {
 
   return (
     <div>
-      <Dialog fullWidth open={openModal} onClose={onReset}>
+      <Dialog fullWidth open={openModal} onClose={resetDefaultValuesForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Editar Personal</DialogTitle>
           <DialogContent>

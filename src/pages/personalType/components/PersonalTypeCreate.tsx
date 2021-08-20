@@ -31,7 +31,7 @@ const PersonalTypeCreate = (props: CreateProps) => {
 
   return (
     <div>
-      <Dialog open={openModal} onClose={onReset}>
+      <Dialog open={openModal} onClose={resetFormAndClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Crear Tipo Personal</DialogTitle>
           <DialogContent>

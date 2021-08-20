@@ -18,5 +18,8 @@ export const URL = {
   SERVICE: {
     RESOURCE: "service/",
   },
+  PACKAGE: {
+    RESOURCE: "package/",
+  },
 };
 export default URL;

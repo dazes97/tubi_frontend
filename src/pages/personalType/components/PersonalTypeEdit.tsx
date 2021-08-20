@@ -43,7 +43,7 @@ const PersonalTypeEdit = (props: EditProps) => {
 
   return (
     <div>
-      <Dialog open={openModal} onClose={onReset}>
+      <Dialog open={openModal} onClose={resetDefaultValuesForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Editar Tipo Personal</DialogTitle>
           <DialogContent>

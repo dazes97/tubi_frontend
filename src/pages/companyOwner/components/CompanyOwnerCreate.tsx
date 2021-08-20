@@ -89,7 +89,7 @@ const PersonalCreate = (props: CreateProps) => {
 
   return (
     <div>
-      <Dialog fullWidth open={openModal} onClose={onReset}>
+      <Dialog fullWidth open={openModal} onClose={resetFormAndClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Crear Propietario Empresa</DialogTitle>
           <DialogContent>

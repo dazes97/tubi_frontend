@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -11,56 +11,142 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { editValidationSchema } from "./schemaValidation";
 import { BUTTON_NAME } from "helpers";
 import MenuItem from "@material-ui/core/MenuItem";
+import { serviceList } from "pages/service/ServiceService";
+import { NotificationSystem } from "components";
+import PackageServiceTable from "./PackageServiceTable";
 interface EditProps {
   data: any;
   openModal: boolean;
   onReset: any;
   onSendDataToServer: any;
 }
-interface personalEditInterface {
+interface PackageEditInterface {
   name: string;
   price: number;
   description: string;
   status: string;
+  services: [];
 }
-const PersonalEdit = (props: EditProps) => {
+const PackageEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
   const {
     handleSubmit,
     control,
     reset,
     formState: { errors },
-  } = useForm<personalEditInterface>({
+  } = useForm<PackageEditInterface>({
     resolver: yupResolver(editValidationSchema),
     defaultValues: {
       name: data.name,
       price: data.price,
       description: data.description,
       status: data.status,
+      services: data.services,
     },
   });
+  const [servicesList, setServicesList] = useState(new Array<any>());
+  const [packageServices, setPackageServices] = useState(data.services ?? []);
+  const [servicesToAddOrDelete, setServicesToAddOrDelete] = useState({
+    toDelete: new Array<any>(),
+    toAdd: new Array<any>(),
+  });
+  const fetchServicesList = async () => {
+    try {
+      const { data } = await serviceList();
+      setServicesList(data);
+    } catch (e) {
+      NotificationSystem({
+        type: "error",
+        message: "Hubo un error al listar los servicios intente nuevamente",
+      });
+    }
+  };
+  useEffect(() => {
+    fetchServicesList();
+  }, []);
   useEffect(() => {
     reset({
       name: data.name,
       price: data.price,
       description: data.description,
       status: data.status,
+      services: data.services,
     });
   }, [data, reset]);
-  const onSubmit: SubmitHandler<personalEditInterface> = (formData) => {
-    onSendDataToServer({ ...formData, id: data.id });
-    closeForm();
+  const onSubmit: SubmitHandler<PackageEditInterface> = (formData) => {
+    if (packageServices.length !== 0) {
+      onSendDataToServer({
+        ...formData,
+        id: data.id,
+        toAdd: servicesToAddOrDelete.toAdd,
+        toDelete: servicesToAddOrDelete.toDelete,
+      });
+      closeForm();
+    } else {
+      NotificationSystem({
+        type: "error",
+        message: "Paquete debe tener al menos un servicio",
+      });
+    }
+  };
+  const deleteServiceFromPackage = (element: any) => {
+    if (
+      !servicesToAddOrDelete?.toDelete.find((e: any) => e.id === element.id)
+    ) {
+      setPackageServices((prev: any) => {
+        return prev.filter((e: any) => e.id !== element.id);
+      });
+      setServicesToAddOrDelete((prev) => {
+        return {
+          ...prev,
+          toDelete: [...prev.toDelete, element],
+          toAdd: prev.toAdd.filter((e: any) => e.id !== element.id),
+        };
+      });
+    }
+  };
+  const addServiceToPackage = (elementId: any) => {
+    const findService = servicesList?.find((e: any) => e.id === elementId);
+    if (!findService) return;
+    //clean item from servicesToAddOrDelete and insert in a clean push
+    setPackageServices((prev: any) => {
+      const reWriteArray = prev.filter((e: any) => e.id !== elementId) ?? [];
+      reWriteArray.push(findService);
+      return reWriteArray;
+    });
+    setServicesToAddOrDelete((prev: any) => {
+      let reWriteArrayAdd = prev.toAdd ?? [];
+      if (!data?.services.find((e: any) => e.id === elementId)) {
+        reWriteArrayAdd =
+          prev.toAdd?.filter((e: any) => e.id !== elementId) ?? [];
+        reWriteArrayAdd.push(findService);
+      }
+      const reWriteArrayDelete = prev.toDelete?.filter(
+        (e: any) => e.id !== elementId
+      );
+      return {
+        ...prev,
+        toAdd: reWriteArrayAdd,
+        toDelete: reWriteArrayDelete,
+      };
+    });
   };
   const closeForm = () => {
     onReset();
   };
   const resetDefaultValuesForm = () => {
     closeForm();
+    setPackageServices(data.services);
+    setServicesToAddOrDelete({
+      toDelete: new Array<any>(),
+      toAdd: new Array<any>(),
+    });
     reset({
       name: data.name,
       price: data.price,
       description: data.description,
       status: data.status,
+      services: data.services,
     });
   };
 
@@ -68,7 +154,7 @@ const PersonalEdit = (props: EditProps) => {
     <div>
       <Dialog fullWidth open={openModal} onClose={resetDefaultValuesForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Editar Servicio</DialogTitle>
+          <DialogTitle>Editar Paquete</DialogTitle>
           <DialogContent>
             <Grid container spacing={1}>
               <Grid item xs={12} md={12}>
@@ -120,7 +206,7 @@ const PersonalEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="price"
                   control={control}
@@ -133,7 +219,7 @@ const PersonalEdit = (props: EditProps) => {
                       autoFocus
                       margin="dense"
                       id="price"
-                      label="Precio"
+                      label="Precio(Bs.)"
                       type="number"
                       fullWidth
                       variant="outlined"
@@ -167,6 +253,39 @@ const PersonalEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
+              <Grid item xs={12} md={12} alignItems="center">
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="status"
+                  label="Servicios"
+                  defaultValue={-1}
+                  select
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => addServiceToPackage(e.target.value)}
+                >
+                  <MenuItem key="-1" value={-1}>
+                    Seleccionar
+                  </MenuItem>
+                  {servicesList &&
+                    servicesList.map((e: any) => {
+                      return (
+                        <MenuItem key={e.id} value={e.id}>
+                          {e.name}
+                        </MenuItem>
+                      );
+                    })}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                {packageServices && (
+                  <PackageServiceTable
+                    onChangeData={(data: any) => deleteServiceFromPackage(data)}
+                    data={packageServices}
+                  />
+                )}
+              </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -186,4 +305,4 @@ const PersonalEdit = (props: EditProps) => {
     </div>
   );
 };
-export default PersonalEdit;
+export default PackageEdit;

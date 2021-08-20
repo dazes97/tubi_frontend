@@ -32,7 +32,7 @@ const CompanyCreate = (props: CreateProps) => {
 
   return (
     <div>
-      <Dialog open={openModal} onClose={onReset}>
+      <Dialog open={openModal} onClose={resetFormAndClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Crear Empresa</DialogTitle>
           <DialogContent>

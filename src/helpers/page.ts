@@ -41,5 +41,11 @@ const PAGE = {
       URL: "/service",
     },
   },
+  PACKAGE: {
+    INDEX: {
+      NAME: "Paquete",
+      URL: "/package",
+    },
+  },
 };
 export default PAGE;

@@ -10,6 +10,7 @@ import {
   Company,
   CompanyOwner,
   Service,
+  Package,
 } from "pages";
 const Routes = () => (
   <BrowserRouter>
@@ -39,6 +40,11 @@ const Routes = () => (
         exact
         path={PAGE.SERVICE.INDEX.URL}
         component={Service}
+      ></CompanyOwnerRoute>
+      <CompanyOwnerRoute
+        exact
+        path={PAGE.PACKAGE.INDEX.URL}
+        component={Package}
       ></CompanyOwnerRoute>
       <AdminRoute
         exact

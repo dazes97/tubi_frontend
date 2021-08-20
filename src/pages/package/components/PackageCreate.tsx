@@ -10,25 +10,32 @@ import { Grid } from "@material-ui/core";
 import { createValidationSchema } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useEffect, useState } from "react";
+import PackageServiceTable from "./PackageServiceTable";
+import { serviceList } from "pages/service/ServiceService";
+import { NotificationSystem } from "components";
+
 interface CreateProps {
   openModal: boolean;
   onReset: any;
   onSendDataToServer: any;
 }
-interface ServiceCreateInterface {
+interface PackageCreateInterface {
   name: string;
   price: number;
   description: string;
   status: number;
 }
-const ServiceCreate = (props: CreateProps) => {
+const PackageCreate = (props: CreateProps) => {
   const { openModal, onReset, onSendDataToServer } = props;
+  const [servicesToAdd, setServicesToAdd] = useState(new Array<any>());
+  const [servicesList, setServicesList] = useState([]);
   const {
     handleSubmit,
     control,
     reset,
     formState: { errors },
-  } = useForm<ServiceCreateInterface>({
+  } = useForm<PackageCreateInterface>({
     resolver: yupResolver(createValidationSchema),
     defaultValues: {
       name: "",
@@ -37,9 +44,34 @@ const ServiceCreate = (props: CreateProps) => {
       status: 1,
     },
   });
-  const onSubmit: SubmitHandler<ServiceCreateInterface> = (data) => {
-    onSendDataToServer(data);
-    resetFormAndClose();
+  const fetchServicesList = async () => {
+    try {
+      const { data } = await serviceList();
+      setServicesList(data);
+    } catch (e) {
+      NotificationSystem({
+        type: "error",
+        message: "Hubo un error al listar los servicios intente nuevamente",
+      });
+    }
+  };
+  useEffect(() => {
+    fetchServicesList();
+  }, []);
+
+  const onSubmit: SubmitHandler<PackageCreateInterface> = (data) => {
+    if (servicesToAdd.length !== 0) {
+      onSendDataToServer({
+        ...data,
+        services: servicesToAdd.map((e: any) => e.id),
+      });
+      resetFormAndClose();
+    } else {
+      NotificationSystem({
+        type: "error",
+        message: "Paquete debe tener al menos un servicio",
+      });
+    }
   };
   const resetFormAndClose = () => {
     onReset();
@@ -49,13 +81,25 @@ const ServiceCreate = (props: CreateProps) => {
       description: "",
       status: 1,
     });
+    setServicesToAdd(new Array<any>());
+  };
+  const addService = (serviceId: any) => {
+    if (!servicesToAdd.find((e: any) => e.id === serviceId)) {
+      const serviceFound = servicesList.find((e: any) => e.id === serviceId);
+      if (!serviceFound) return;
+      setServicesToAdd((prev) => [...prev, serviceFound]);
+    }
+  };
+  const deleteService = (serviceId: any) => {
+    console.log("serviceId: ", serviceId);
+    setServicesToAdd((prev) => prev.filter((e: any) => e.id !== serviceId.id));
   };
 
   return (
     <div>
       <Dialog fullWidth open={openModal} onClose={resetFormAndClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Crear Servicio</DialogTitle>
+          <DialogTitle>Crear Paquete</DialogTitle>
           <DialogContent>
             <Grid container spacing={1}>
               <Grid item xs={12} md={12}>
@@ -107,7 +151,7 @@ const ServiceCreate = (props: CreateProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="price"
                   control={control}
@@ -154,6 +198,39 @@ const ServiceCreate = (props: CreateProps) => {
                   )}
                 />
               </Grid>
+              <Grid item xs={12} md={12} alignItems="center">
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="status"
+                  label="Servicios"
+                  defaultValue={-1}
+                  select
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => addService(e.target.value)}
+                >
+                  <MenuItem key="-1" value={-1}>
+                    Seleccionar
+                  </MenuItem>
+                  {servicesList &&
+                    servicesList.map((e: any) => {
+                      return (
+                        <MenuItem key={e.id} value={e.id}>
+                          {e.name}
+                        </MenuItem>
+                      );
+                    })}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                {servicesToAdd && (
+                  <PackageServiceTable
+                    onChangeData={(serviceId: any) => deleteService(serviceId)}
+                    data={servicesToAdd}
+                  />
+                )}
+              </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -173,4 +250,4 @@ const ServiceCreate = (props: CreateProps) => {
     </div>
   );
 };
-export default ServiceCreate;
+export default PackageCreate;

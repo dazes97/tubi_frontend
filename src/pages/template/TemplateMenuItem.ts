@@ -62,6 +62,11 @@ const MenuItems = () => {
               name: PAGE.SERVICE.INDEX.NAME,
               icon: "LocationCityIcon",
             },
+            {
+              url: PAGE.PACKAGE.INDEX.URL,
+              name: PAGE.PACKAGE.INDEX.NAME,
+              icon: "PersonIcon",
+            },
           ],
         },
       ];

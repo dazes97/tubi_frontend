@@ -8,6 +8,7 @@ import ErrorPage from "./error/ErrorPage";
 import Company from "./company/";
 import CompanyOwner from "./companyOwner";
 import Service from "./service";
+import Package from "./package";
 export {
   Login,
   Register,
@@ -19,4 +20,5 @@ export {
   Company,
   CompanyOwner,
   Service,
+  Package,
 };
