@@ -4,9 +4,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { BUTTON_NAME } from "helpers";
-import { Grid } from "@material-ui/core";
 import { createValidationSchema } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -91,7 +92,6 @@ const PackageCreate = (props: CreateProps) => {
     }
   };
   const deleteService = (serviceId: any) => {
-    console.log("serviceId: ", serviceId);
     setServicesToAdd((prev) => prev.filter((e: any) => e.id !== serviceId.id));
   };
 
@@ -164,7 +164,7 @@ const PackageCreate = (props: CreateProps) => {
                       autoFocus
                       margin="dense"
                       id="price"
-                      label="Precio"
+                      label="Precio(Bs)"
                       type="number"
                       fullWidth
                       variant="outlined"
@@ -224,13 +224,27 @@ const PackageCreate = (props: CreateProps) => {
                 </TextField>
               </Grid>
               <Grid item xs={12} md={12}>
-                {servicesToAdd && (
+                {servicesToAdd && servicesToAdd.length !== 0 && (
                   <PackageServiceTable
                     onChangeData={(serviceId: any) => deleteService(serviceId)}
                     data={servicesToAdd}
                   />
                 )}
               </Grid>
+              {servicesToAdd && servicesToAdd.length !== 0 && (
+                <Grid item xs={12} md={12}>
+                  <Typography>
+                    Precio regular:
+                    <strong>
+                      Bs.{" "}
+                      {servicesToAdd.reduce(
+                        (a: any, { price }: any) => Number(a) + Number(price),
+                        0
+                      )}
+                    </strong>
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
           </DialogContent>
           <DialogActions>

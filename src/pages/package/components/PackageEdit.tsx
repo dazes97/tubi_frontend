@@ -6,11 +6,12 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editValidationSchema } from "./schemaValidation";
 import { BUTTON_NAME } from "helpers";
-import MenuItem from "@material-ui/core/MenuItem";
 import { serviceList } from "pages/service/ServiceService";
 import { NotificationSystem } from "components";
 import PackageServiceTable from "./PackageServiceTable";
@@ -72,14 +73,19 @@ const PackageEdit = (props: EditProps) => {
       status: data.status,
       services: data.services,
     });
+    setServicesToAddOrDelete({
+      toDelete: new Array<any>(),
+      toAdd: new Array<any>(),
+    });
+    setPackageServices(data.services);
   }, [data, reset]);
   const onSubmit: SubmitHandler<PackageEditInterface> = (formData) => {
     if (packageServices.length !== 0) {
       onSendDataToServer({
         ...formData,
         id: data.id,
-        toAdd: servicesToAddOrDelete.toAdd,
-        toDelete: servicesToAddOrDelete.toDelete,
+        toAdd: servicesToAddOrDelete.toAdd?.map((e: any) => e.id),
+        toDelete: servicesToAddOrDelete.toDelete?.map((e: any) => e.id),
       });
       closeForm();
     } else {
@@ -135,12 +141,6 @@ const PackageEdit = (props: EditProps) => {
     onReset();
   };
   const resetDefaultValuesForm = () => {
-    closeForm();
-    setPackageServices(data.services);
-    setServicesToAddOrDelete({
-      toDelete: new Array<any>(),
-      toAdd: new Array<any>(),
-    });
     reset({
       name: data.name,
       price: data.price,
@@ -148,6 +148,7 @@ const PackageEdit = (props: EditProps) => {
       status: data.status,
       services: data.services,
     });
+    closeForm();
   };
 
   return (
@@ -279,13 +280,27 @@ const PackageEdit = (props: EditProps) => {
                 </TextField>
               </Grid>
               <Grid item xs={12} md={12}>
-                {packageServices && (
+                {packageServices && packageServices.length !== 0 && (
                   <PackageServiceTable
                     onChangeData={(data: any) => deleteServiceFromPackage(data)}
                     data={packageServices}
                   />
                 )}
               </Grid>
+              {packageServices && packageServices.length !== 0 && (
+                <Grid item xs={12} md={12}>
+                  <Typography>
+                    Precio regular:
+                    <strong>
+                      Bs.{" "}
+                      {packageServices.reduce(
+                        (a: any, { price }: any) => Number(a) + Number(price),
+                        0
+                      )}
+                    </strong>
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
           </DialogContent>
           <DialogActions>

@@ -4,6 +4,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Alert from "@material-ui/core/Alert";
 import { BUTTON_NAME } from "helpers";
 interface DeleteProps {
   data: any;
@@ -28,8 +29,12 @@ export const ServiceDelete = (props: DeleteProps) => {
         <DialogTitle>Eliminar Servicio</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Esta Seguro que desea eliminar el servicio
-            <strong> {data.name}</strong>?
+            <Alert severity="error">
+              Es posible que este servicio se encuentre en algun paquete de
+              servicio aun disponible ¿Esta Seguro que desea eliminar el
+              servicio
+              <strong> {data.name}</strong>?
+            </Alert>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
