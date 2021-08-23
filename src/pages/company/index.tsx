@@ -44,7 +44,7 @@ const Company = () => {
       setLoading(true);
       setTimeout(async () => {
         const response = await companyList();
-        setData(response.data ?? []);
+        setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {

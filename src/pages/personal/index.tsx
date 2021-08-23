@@ -43,8 +43,8 @@ const Personal = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await personalList();
-        setData(data ?? []);
+        const response = await personalList();
+        setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {

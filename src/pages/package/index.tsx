@@ -43,8 +43,8 @@ const Package = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await packageList();
-        setData(data ?? []);
+        const response = await packageList();
+        setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {

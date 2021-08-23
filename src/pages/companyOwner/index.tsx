@@ -43,8 +43,8 @@ const CompanyOwner = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await companyOwnerList();
-        setData(data ?? []);
+        const response = await companyOwnerList();
+        setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {

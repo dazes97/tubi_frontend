@@ -44,7 +44,7 @@ const Service = () => {
       setLoading(true);
       setTimeout(async () => {
         const { data } = await serviceList();
-        setData(data ?? []);
+        setData(data.length > 0 ? data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
     } catch (e) {
