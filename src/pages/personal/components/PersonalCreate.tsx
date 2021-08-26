@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { NotificationSystem } from "components";
 import { createValidationSchema } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { branchList } from "pages/branch/BranchService";
 interface CreateProps {
   openModal: boolean;
   onReset: any;
@@ -28,10 +29,12 @@ interface personalCreateInterface {
   address: string;
   dni: string;
   personalTypeId: number;
+  branchId: number;
 }
 const PersonalCreate = (props: CreateProps) => {
   const { openModal, onReset, onSendDataToServer } = props;
   const [personalTypeSelect, setPersonalTypeSelect] = useState([]);
+  const [branchSelect, setBranchSelect] = useState([]);
   const fetchPersonalTypeList = async () => {
     try {
       const { data } = await personalTypeList();
@@ -43,8 +46,20 @@ const PersonalCreate = (props: CreateProps) => {
       });
     }
   };
+  const fetchBranchList = async () => {
+    try {
+      const { data } = await branchList();
+      setBranchSelect(data);
+    } catch (e) {
+      NotificationSystem({
+        type: "error",
+        message: "Hubo un error al listar las sucursales intente nuevamente",
+      });
+    }
+  };
   useEffect(() => {
     fetchPersonalTypeList();
+    fetchBranchList();
   }, []);
   const {
     handleSubmit,
@@ -59,6 +74,7 @@ const PersonalCreate = (props: CreateProps) => {
       address: "",
       bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
       personalTypeId: -1,
+      branchId: -1,
       dni: "",
       email: "",
       gender: -1,
@@ -77,6 +93,7 @@ const PersonalCreate = (props: CreateProps) => {
       address: "",
       bornDate: DateTime.now().toFormat("yyyy-MM-dd"),
       personalTypeId: -1,
+      branchId: -1,
       dni: "",
       email: "",
       gender: -1,
@@ -258,6 +275,37 @@ const PersonalCreate = (props: CreateProps) => {
                       <MenuItem value="-1">Seleccione</MenuItem>
                       {personalTypeSelect &&
                         personalTypeSelect.map((e: any, key) => (
+                          <MenuItem key={key} value={e.id}>
+                            {e.name}
+                          </MenuItem>
+                        ))}
+                    </TextField>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Controller
+                  name="branchId"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.branchId?.type === "min"}
+                      helperText={
+                        errors.branchId?.type === "min" &&
+                        "Sucursal es requerida"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="branchId"
+                      label="Sucursal"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value="-1">Seleccione</MenuItem>
+                      {branchSelect &&
+                        branchSelect.map((e: any, key) => (
                           <MenuItem key={key} value={e.id}>
                             {e.name}
                           </MenuItem>

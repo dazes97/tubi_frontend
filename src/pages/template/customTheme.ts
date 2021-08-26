@@ -1,6 +1,4 @@
 import { createTheme } from "@material-ui/core";
-import { deepOrange, orange } from "@material-ui/core/colors";
-
 const customTheme = createTheme({
   palette: {
     primary: {

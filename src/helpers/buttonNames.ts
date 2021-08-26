@@ -4,5 +4,6 @@ const BUTTON_NAME = {
   UPDATE: "ACTUALIZAR",
   DELETE: "ELIMINAR",
   CANCEL: "CANCELAR",
+  CLOSE:"CERRAR"
 };
 export default BUTTON_NAME;

@@ -14,6 +14,7 @@ import { editValidationSchema } from "./schemaValidation";
 import { BUTTON_NAME } from "helpers";
 import { personalTypeList } from "pages/personalType/PersonalTypeService";
 import { NotificationSystem } from "components";
+import { branchList } from "pages/branch/BranchService";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -30,10 +31,13 @@ interface personalEditInterface {
   address: string;
   dni: string;
   personalTypeId: string;
+  branchId: string;
 }
 const PersonalEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
   const [personalTypeSelect, setPersonalTypeSelect] = useState([]);
+  const [branchSelect, setBranchSelect] = useState([]);
+
   const {
     handleSubmit,
     control,
@@ -47,6 +51,7 @@ const PersonalEdit = (props: EditProps) => {
       address: data.address,
       bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
       personalTypeId: data.personalType.id,
+      branchId: data.branchId,
       dni: data.dni,
       email: data.user.email,
       gender: data.user.gender ?? "",
@@ -66,9 +71,23 @@ const PersonalEdit = (props: EditProps) => {
       });
     }
   }, [data]);
+  const fetchBrachList = useCallback(async () => {
+    try {
+      const response = await branchList();
+      setBranchSelect(
+        response.data.filter((e: any) => e.id !== data.branch.id)
+      );
+    } catch (e) {
+      NotificationSystem({
+        type: "error",
+        message: "Hubo un error al listar tipo Personal intente nuevamente",
+      });
+    }
+  }, [data]);
   useEffect(() => {
     fetchPersonalTypeList();
-  }, [fetchPersonalTypeList]);
+    fetchBrachList();
+  }, [fetchPersonalTypeList, fetchBrachList]);
   useEffect(() => {
     reset({
       name: data.user.name,
@@ -76,6 +95,7 @@ const PersonalEdit = (props: EditProps) => {
       address: data.address,
       bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
       personalTypeId: data.personalType.id,
+      branchId: data.branchId,
       dni: data.dni,
       email: data.user.email,
       gender: data.user.gender ?? "",
@@ -97,6 +117,7 @@ const PersonalEdit = (props: EditProps) => {
       address: data.address,
       bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
       personalTypeId: data.personalType.id,
+      branchId: data.branchId,
       dni: data.dni,
       email: data.user.email,
       gender: data.user.gender ?? "",
@@ -281,6 +302,39 @@ const PersonalEdit = (props: EditProps) => {
                       </MenuItem>
                       {personalTypeSelect &&
                         personalTypeSelect.map((e: any, key) => (
+                          <MenuItem key={key} value={e.id}>
+                            {e.name}
+                          </MenuItem>
+                        ))}
+                    </TextField>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Controller
+                  name="branchId"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.branchId?.type === "min"}
+                      helperText={
+                        errors.branchId?.type === "min" &&
+                        "Sucursal es requerida"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="branchId"
+                      label="Sucursal"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value={data.branch.id}>
+                        {data.branch.name}
+                      </MenuItem>
+                      {personalTypeSelect &&
+                        branchSelect.map((e: any, key) => (
                           <MenuItem key={key} value={e.id}>
                             {e.name}
                           </MenuItem>

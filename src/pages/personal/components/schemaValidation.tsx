@@ -8,6 +8,7 @@ const createValidationSchema = yup.object().shape({
   bornDate: yup.date().required(),
   dni: yup.string().required(),
   personalTypeId: yup.number().min(0).required(),
+  branchId: yup.number().min(0).required(),
 });
 const editValidationSchema = yup.object().shape({
   name: yup.string().max(50).required(),
@@ -21,5 +22,6 @@ const editValidationSchema = yup.object().shape({
     then: yup.string().min(8, "Contraseña al menos debe tener 8 caracteres"),
   }),
   personalTypeId: yup.number().min(0).required(),
+  branchId: yup.number().min(0).required(),
 });
 export { createValidationSchema, editValidationSchema };

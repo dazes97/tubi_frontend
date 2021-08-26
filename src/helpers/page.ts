@@ -47,5 +47,11 @@ const PAGE = {
       URL: "/package",
     },
   },
+  BRANCH: {
+    INDEX: {
+      NAME: "Sucursal",
+      URL: "/branch",
+    },
+  },
 };
 export default PAGE;

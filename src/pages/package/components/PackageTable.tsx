@@ -1,9 +1,9 @@
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import { CRUD_CODE, BUTTON_NAME } from "helpers";
+import Chip from "@material-ui/core/Chip";
 interface EditDeleteProps {
   onChangeOperation: any;
   onChangeOpenModal: any;
@@ -22,7 +22,7 @@ const PackageTable = (props: EditDeleteProps) => {
       field: "name",
       headerName: "Nombre",
       headerAlign: "center",
-      flex: 0.2,
+      flex: 0.3,
       minWidth: 100,
       align: "center",
     },
@@ -39,19 +39,21 @@ const PackageTable = (props: EditDeleteProps) => {
       headerName: "Estado",
       headerAlign: "center",
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 70,
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <Typography variant="subtitle2">
-            {row.status === "1" ? "Activo" : "No Activo"}
-          </Typography>
+          <Chip
+            label={row.status === "1" ? "Activo" : "No Activo"}
+            color={row.status === "1" ? "success" : "error"}
+            variant="filled"
+          />
         );
       },
     },
     {
       field: "action",
-      flex: 0.4,
+      flex: 0.3,
       minWidth: 250,
       headerName: "Acciones",
       headerAlign: "center",

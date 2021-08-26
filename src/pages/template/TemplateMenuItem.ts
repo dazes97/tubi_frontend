@@ -60,12 +60,17 @@ const MenuItems = () => {
             {
               url: PAGE.SERVICE.INDEX.URL,
               name: PAGE.SERVICE.INDEX.NAME,
-              icon: "LocationCityIcon",
+              icon: "DirectionsBikeIcon",
             },
             {
               url: PAGE.PACKAGE.INDEX.URL,
               name: PAGE.PACKAGE.INDEX.NAME,
-              icon: "PersonIcon",
+              icon: "CreateNewFolderIcon",
+            },
+            {
+              url: PAGE.BRANCH.INDEX.URL,
+              name: PAGE.BRANCH.INDEX.NAME,
+              icon: "LocationCityIcon",
             },
           ],
         },

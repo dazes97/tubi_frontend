@@ -12,6 +12,8 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import PersonIcon from "@material-ui/icons/Person";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
+import DirectionsBikeIcon from "@material-ui/icons/DirectionsBike";
+import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 import { Link } from "react-router-dom";
 import MenuItems from "./TemplateMenuItem";
 // const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -34,6 +36,12 @@ const getIcons = (iconName: string) => {
     }
     case "LocationCityIcon": {
       return <LocationCityIcon />;
+    }
+    case "DirectionsBikeIcon": {
+      return <DirectionsBikeIcon />;
+    }
+    case "CreateNewFolderIcon": {
+      return <CreateNewFolderIcon />;
     }
     default: {
       return <DashboardIcon />;

@@ -5,8 +5,9 @@
   "dependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "@fontsource/roboto": "^4.5.0",
     "@hookform/resolvers": "^2.7.1",
-    "@material-ui/core": "^5.0.0-beta.2",
+    "@material-ui/core": "^5.0.0-beta.4",
     "@material-ui/data-grid": "^4.0.0-alpha.34",
     "@material-ui/icons": "^5.0.0-beta.1",
     "@material-ui/styles": "^4.11.4",
@@ -18,10 +19,12 @@
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "axios": "^0.21.1",
+    "leaflet": "^1.7.1",
     "luxon": "^2.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.12.2",
+    "react-leaflet": "^3.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
@@ -30,6 +33,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.7.4",
     "@types/luxon": "^2.0.0",
     "@types/node": "^16.4.11",
     "@types/react": "^17.0.0",
@@ -49,16 +53,9 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

@@ -21,5 +21,8 @@ export const URL = {
   PACKAGE: {
     RESOURCE: "package/",
   },
+  BRANCH: {
+    RESOURCE: "branch/",
+  },
 };
 export default URL;
