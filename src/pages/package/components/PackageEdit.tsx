@@ -26,6 +26,7 @@ interface PackageEditInterface {
   price: number;
   description: string;
   status: string;
+  location: string;
   services: [];
 }
 const PackageEdit = (props: EditProps) => {
@@ -37,13 +38,6 @@ const PackageEdit = (props: EditProps) => {
     formState: { errors },
   } = useForm<PackageEditInterface>({
     resolver: yupResolver(editValidationSchema),
-    defaultValues: {
-      name: data.name,
-      price: data.price,
-      description: data.description,
-      status: data.status,
-      services: data.services,
-    },
   });
   const [servicesList, setServicesList] = useState(new Array<any>());
   const [packageServices, setPackageServices] = useState(data.services ?? []);
@@ -72,6 +66,7 @@ const PackageEdit = (props: EditProps) => {
       description: data.description,
       status: data.status,
       services: data.services,
+      location: data.location,
     });
     setServicesToAddOrDelete({
       toDelete: new Array<any>(),
@@ -147,6 +142,7 @@ const PackageEdit = (props: EditProps) => {
       description: data.description,
       status: data.status,
       services: data.services,
+      location: data.location,
     });
     closeForm();
   };
@@ -254,7 +250,7 @@ const PackageEdit = (props: EditProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={12} alignItems="center">
+              <Grid item xs={12} md={6} alignItems="center">
                 <TextField
                   autoFocus
                   margin="dense"
@@ -278,6 +274,31 @@ const PackageEdit = (props: EditProps) => {
                       );
                     })}
                 </TextField>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.status?.type === "min"}
+                      helperText={
+                        errors.status?.type === "min" && "Estado es Requerido"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="location"
+                      label="¿Requiere ubicacion del cliente?"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value={0}>No</MenuItem>
+                      <MenuItem value={1}>Si</MenuItem>
+                    </TextField>
+                  )}
+                />
               </Grid>
               <Grid item xs={12} md={12}>
                 {packageServices && packageServices.length !== 0 && (

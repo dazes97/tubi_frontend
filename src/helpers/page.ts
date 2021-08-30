@@ -53,5 +53,17 @@ const PAGE = {
       URL: "/branch",
     },
   },
+  REQUEST: {
+    INDEX: {
+      NAME: "Solicitud",
+      URL: "/request",
+    },
+  },
+  QUOTE: {
+    INDEX: {
+      NAME: "Cotizacion",
+      URL: "/quote",
+    },
+  },
 };
 export default PAGE;

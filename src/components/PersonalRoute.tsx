@@ -12,7 +12,7 @@ function PersonalRoute({ component: Component, ...restOfProps }: any) {
     <Route
       {...restOfProps}
       render={(props) =>
-        roleChecker() !== ROLE_ID.PROPIETARIO ? (
+        roleChecker() === ROLE_ID.ASISTENTE ? (
           <Component {...props} />
         ) : (
           <Redirect to={URL.AUTH.LOGIN} />

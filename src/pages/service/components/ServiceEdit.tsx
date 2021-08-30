@@ -22,6 +22,7 @@ interface personalEditInterface {
   price: number;
   description: string;
   status: string;
+  location: string;
 }
 const PersonalEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
@@ -32,12 +33,6 @@ const PersonalEdit = (props: EditProps) => {
     formState: { errors },
   } = useForm<personalEditInterface>({
     resolver: yupResolver(editValidationSchema),
-    defaultValues: {
-      name: data.name,
-      price: data.price,
-      description: data.description,
-      status: data.status,
-    },
   });
   useEffect(() => {
     reset({
@@ -45,6 +40,7 @@ const PersonalEdit = (props: EditProps) => {
       price: data.price,
       description: data.description,
       status: data.status,
+      location: data.location,
     });
   }, [data, reset]);
   const onSubmit: SubmitHandler<personalEditInterface> = (formData) => {
@@ -61,6 +57,7 @@ const PersonalEdit = (props: EditProps) => {
       price: data.price,
       description: data.description,
       status: data.status,
+      location: data.location,
     });
   };
 
@@ -163,6 +160,31 @@ const PersonalEdit = (props: EditProps) => {
                     >
                       <MenuItem value={1}>Activo</MenuItem>
                       <MenuItem value={0}>No Activo</MenuItem>
+                    </TextField>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.status?.type === "min"}
+                      helperText={
+                        errors.status?.type === "min" && "Estado es Requerido"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="location"
+                      label="¿Requiere ubicacion del cliente?"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value={0}>No</MenuItem>
+                      <MenuItem value={1}>Si</MenuItem>
                     </TextField>
                   )}
                 />

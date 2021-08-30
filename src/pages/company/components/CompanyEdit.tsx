@@ -23,14 +23,7 @@ const CompanyEdit = (props: EditProps) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<CompanyInterface>({
-    defaultValues: {
-      name: data.name,
-      nit: data.nit,
-      mainAddress: data.mainAddress,
-      status: data.status,
-    },
-  });
+  } = useForm<CompanyInterface>();
   useEffect(() => {
     reset({
       name: data.name,

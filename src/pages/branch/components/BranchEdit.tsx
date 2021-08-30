@@ -46,15 +46,6 @@ const BranchEdit = (props: EditProps) => {
     formState: { errors },
   } = useForm<BranchEditInterface>({
     resolver: yupResolver(editValidationSchema),
-    defaultValues: {
-      name: data.name,
-      address: data.address,
-      description: data.description,
-      status: data.status,
-      attentionCapacity: data.attentionCapacity,
-      type: data.type,
-      services: data.services,
-    },
   });
 
   useEffect(() => {

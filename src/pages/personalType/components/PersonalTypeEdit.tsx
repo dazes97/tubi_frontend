@@ -21,11 +21,7 @@ const PersonalTypeEdit = (props: EditProps) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<PersonalTypeInterface>({
-    defaultValues: {
-      name: data.name,
-    },
-  });
+  } = useForm<PersonalTypeInterface>();
   useEffect(() => {
     reset({ name: data.name });
   }, [data, reset]);

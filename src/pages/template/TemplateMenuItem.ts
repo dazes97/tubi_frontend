@@ -75,6 +75,34 @@ const MenuItems = () => {
           ],
         },
       ];
+    case ROLE_ID.ASISTENTE:
+      return [
+        {
+          name: "",
+          elements: [
+            {
+              url: PAGE.INDEX.URL,
+              name: PAGE.INDEX.NAME,
+              icon: "DashboardIcon",
+            },
+          ],
+        },
+        {
+          name: "Servicios",
+          elements: [
+            {
+              url: PAGE.REQUEST.INDEX.URL,
+              name: PAGE.REQUEST.INDEX.NAME,
+              icon: "AssignmentIcon",
+            },
+            {
+              url: PAGE.QUOTE.INDEX.URL,
+              name: PAGE.QUOTE.INDEX.NAME,
+              icon: "AssignmentReturnedIcon",
+            },
+          ],
+        },
+      ];
     default:
       return [];
   }

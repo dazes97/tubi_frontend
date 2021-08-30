@@ -9,6 +9,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import AssignmentReturnedIcon from "@material-ui/icons/AssignmentReturned";
 import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import PersonIcon from "@material-ui/icons/Person";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
@@ -42,6 +43,9 @@ const getIcons = (iconName: string) => {
     }
     case "CreateNewFolderIcon": {
       return <CreateNewFolderIcon />;
+    }
+    case "AssignmentReturnedIcon": {
+      return <AssignmentReturnedIcon />;
     }
     default: {
       return <DashboardIcon />;

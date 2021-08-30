@@ -45,18 +45,6 @@ const PersonalEdit = (props: EditProps) => {
     formState: { errors },
   } = useForm<personalEditInterface>({
     resolver: yupResolver(editValidationSchema),
-    defaultValues: {
-      name: data.user.name,
-      lastName: data.user.lastName,
-      address: data.address,
-      bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      branchId: data.branchId,
-      dni: data.dni,
-      email: data.user.email,
-      gender: data.user.gender ?? "",
-      password: "",
-    },
   });
   const fetchPersonalTypeList = useCallback(async () => {
     try {

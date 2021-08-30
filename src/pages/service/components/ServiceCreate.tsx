@@ -4,12 +4,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Switch from "@material-ui/core/Switch";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { BUTTON_NAME } from "helpers";
 import { Grid } from "@material-ui/core";
 import { createValidationSchema } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import MenuItem from "@material-ui/core/MenuItem";
 interface CreateProps {
   openModal: boolean;
   onReset: any;
@@ -20,6 +21,7 @@ interface ServiceCreateInterface {
   price: number;
   description: string;
   status: number;
+  location: number;
 }
 const ServiceCreate = (props: CreateProps) => {
   const { openModal, onReset, onSendDataToServer } = props;
@@ -35,6 +37,7 @@ const ServiceCreate = (props: CreateProps) => {
       price: 0,
       description: "",
       status: 1,
+      location: 0,
     },
   });
   const onSubmit: SubmitHandler<ServiceCreateInterface> = (data) => {
@@ -48,6 +51,7 @@ const ServiceCreate = (props: CreateProps) => {
       price: 0,
       description: "",
       status: 1,
+      location: 0,
     });
   };
 
@@ -150,6 +154,31 @@ const ServiceCreate = (props: CreateProps) => {
                     >
                       <MenuItem value={1}>Activo</MenuItem>
                       <MenuItem value={0}>No Activo</MenuItem>
+                    </TextField>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.status?.type === "min"}
+                      helperText={
+                        errors.status?.type === "min" && "Estado es Requerido"
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="location"
+                      label="¿Requiere ubicacion del cliente?"
+                      select
+                      fullWidth
+                      variant="outlined"
+                      {...field}
+                    >
+                      <MenuItem value={0}>No</MenuItem>
+                      <MenuItem value={1}>Si</MenuItem>
                     </TextField>
                   )}
                 />
