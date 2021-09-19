@@ -15,8 +15,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { NotificationSystem } from "components";
-import { serviceList } from "pages/service/ServiceService";
-import { packageList } from "pages/package/PackageService";
+import { serviceListInBranch } from "pages/service/ServiceService";
+import { packageListInBranch } from "pages/package/PackageService";
 import RequestServiceTable from "./RequestServiceTable";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 // import DateAdapter from "@material-ui/lab/AdapterLuxon";
@@ -40,14 +40,13 @@ interface RequestCreateInterface {
   clientPhone: string;
   clientAddress: string;
   clientAddressDetail: string;
-  //bikePhoto: string;
+  bikePhoto: any;
 }
 const RequestCreate = (props: CreateProps) => {
   const { openModal, onReset, onSendDataToServer } = props;
   const [servicesToAdd, setServicesToAdd] = useState(new Array<any>());
   const [servicesList, setServicesList] = useState(new Array<any>());
   const [packagesList, setPackagesList] = useState(new Array<any>());
-  const [fileToUpload, setFileToUpload] = useState<any>(null);
   const {
     handleSubmit,
     control,
@@ -67,12 +66,12 @@ const RequestCreate = (props: CreateProps) => {
       clientAddress: "",
       clientAddressDetail: "",
       requestDeliveryDateTime: DateTime.now().toFormat("yyyy-LL-dd'T'T"),
-      //bikePhoto: "",
+      bikePhoto: null,
     },
   });
   const fetchServicesList = async () => {
     try {
-      const { data } = await serviceList();
+      const { data } = await serviceListInBranch();
       setServicesList(data);
     } catch (e) {
       NotificationSystem({
@@ -83,7 +82,7 @@ const RequestCreate = (props: CreateProps) => {
   };
   const fetchPackagesList = async () => {
     try {
-      const { data } = await packageList();
+      const { data } = await packageListInBranch();
       setPackagesList(data);
     } catch (e) {
       NotificationSystem({
@@ -92,9 +91,9 @@ const RequestCreate = (props: CreateProps) => {
       });
     }
   };
-  const toBase64 = () =>
+  const toBase64 = (photo: any) =>
     new Promise((resolve, reject) => {
-      const file = fileToUpload ?? null;
+      const file = photo ?? null;
       if (!file) return null;
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -107,10 +106,18 @@ const RequestCreate = (props: CreateProps) => {
   }, []);
 
   const onSubmit: SubmitHandler<RequestCreateInterface> = async (data) => {
+    console.log("data: ", data);
+    if (servicesToAdd.length === 0) {
+      NotificationSystem({
+        message: "Debe Seleccionar al menos un servicio",
+        type: "warning",
+      });
+      return;
+    }
     onSendDataToServer({
       ...data,
       services: servicesToAdd,
-      bikePhoto: await toBase64(),
+      bikePhoto: data.bikePhoto ? await toBase64(data.bikePhoto) : null,
     });
     resetFormAndClose();
   };
@@ -127,10 +134,9 @@ const RequestCreate = (props: CreateProps) => {
       clientAddress: "",
       clientAddressDetail: "",
       requestDeliveryDateTime: DateTime.now().toFormat("yyyy-LL-dd'T'T"),
-      //bikePhoto: "",
+      bikePhoto: null,
     });
     setServicesToAdd(new Array<any>());
-    setFileToUpload(null);
     onReset();
   };
   const addServiceToRequest = (elementId: any) => {
@@ -173,7 +179,11 @@ const RequestCreate = (props: CreateProps) => {
   return (
     <div>
       <Dialog open={openModal} onClose={resetFormAndClose}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit, (e: any) =>
+            console.log("error: ", e)
+          )}
+        >
           <DialogTitle>Crear Solicitud</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
@@ -275,11 +285,13 @@ const RequestCreate = (props: CreateProps) => {
                         15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20,
                         20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5,
                         26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5,
-                      ].map((e: any) => (
-                        <MenuItem key={e} value={e}>
-                          {e}
-                        </MenuItem>
-                      ))}
+                      ]
+                        .reverse()
+                        .map((e: any) => (
+                          <MenuItem key={e} value={e}>
+                            {e}
+                          </MenuItem>
+                        ))}
                     </TextField>
                   )}
                 />
@@ -469,28 +481,31 @@ const RequestCreate = (props: CreateProps) => {
                 />
               </Grid>
               <Grid item xs={12} md={12}>
-                {/* <Controller
+                <Controller
                   name="bikePhoto"
                   control={control}
-                  render={({ field }) => (
-                    <> */}
-                <Button variant="contained" component="label">
-                  Subir Fotografia
-                  <input
-                    // {...field}
-                    type="file"
-                    accept="image/png, image/gif, image/jpeg"
-                    hidden
-                    onChange={(e) =>
-                      setFileToUpload(
-                        e.target?.files ? e.target.files[0] : null
-                      )
-                    }
-                  />
-                </Button>
-                {/* </>
+                  render={({ field: { onChange } }) => (
+                    <>
+                      <Button variant="contained" component="label">
+                        Subir Fotografia
+                        <input
+                          id="bikePhoto"
+                          type="file"
+                          accept="image/png, image/gif, image/jpeg"
+                          hidden
+                          onChange={(e) =>
+                            onChange(e.target?.files ? e.target.files[0] : null)
+                          }
+                          // onChange={(e) =>
+                          //   setFileToUpload(
+                          //     e.target?.files ? e.target.files[0] : null
+                          //   )
+                          // }
+                        />
+                      </Button>
+                    </>
                   )}
-                /> */}
+                />
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField

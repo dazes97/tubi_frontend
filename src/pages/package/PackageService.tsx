@@ -4,6 +4,10 @@ export const packageList = async () => {
   const { data } = await API.GET(URL.PACKAGE.RESOURCE);
   return data;
 };
+export const packageListInBranch = async () => {
+  const { data } = await API.GET(URL.PACKAGE.PACKAGES_IN_BRANCH);
+  return data;
+};
 export const packageCreate = async (dataForm: PackageInterface) => {
   const { data } = await API.POST(URL.PACKAGE.RESOURCE, dataForm);
   return data;

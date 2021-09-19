@@ -17,9 +17,11 @@ export const URL = {
   },
   SERVICE: {
     RESOURCE: "service/",
+    SERVICES_IN_BRANCH: "service/servicesInBranch",
   },
   PACKAGE: {
     RESOURCE: "package/",
+    PACKAGES_IN_BRANCH: "package/packagesInBranch",
   },
   BRANCH: {
     RESOURCE: "branch/",

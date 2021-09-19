@@ -126,7 +126,7 @@ const RequestDetail = (props: RequestDetailInterface) => {
           <Grid item xs={12} md={12}>
             <Typography variant="body2">
               <strong>Referencia: </strong>
-              {data.clientAddressDescription ?? "Sin Datos"}
+              {data.clientAddressDetail ?? "Sin Datos"}
             </Typography>
           </Grid>
           <Grid item xs={12} md={12}>

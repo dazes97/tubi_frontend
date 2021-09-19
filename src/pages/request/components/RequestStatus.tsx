@@ -137,7 +137,6 @@ const RequestStatus = (props: UpdateRequestStatusInterface) => {
             variant="contained"
             color="primary"
             type="submit"
-            onClick={() => console.log("formstate: ", errors)}
           >
             {BUTTON_NAME.UPDATE}
           </Button>

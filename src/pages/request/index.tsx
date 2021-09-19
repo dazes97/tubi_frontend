@@ -89,12 +89,11 @@ const Request = () => {
   };
   const updateRequestStatus = async (formData: any, requestStatus: any) => {
     try {
-      console.log("final data: ", { ...formData, newStatus: requestStatus });
-      fetchData();
       await requestUpdate(
         { ...formData, newStatus: requestStatus },
         formData.id
       );
+      fetchData();
       NotificationSystem({
         type: "success",
         message: CRUD_MESSAGE.UPDATE.SUCCESS,
