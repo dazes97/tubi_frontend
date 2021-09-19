@@ -10,6 +10,7 @@ import CompanyOwner from "./companyOwner";
 import Service from "./service";
 import Package from "./package";
 import Branch from "./branch";
+import Request from "./request";
 export {
   Login,
   Register,
@@ -23,4 +24,5 @@ export {
   Service,
   Package,
   Branch,
+  Request,
 };

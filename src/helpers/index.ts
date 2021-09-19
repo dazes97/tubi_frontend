@@ -4,4 +4,15 @@ import BUTTON_NAME from "./buttonNames";
 import PAGE from "./page";
 import CONSTANT from "./generalConstants";
 import ROLE_ID from "./roleConstant";
-export { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT, ROLE_ID };
+import REQUEST_CODE from "./requestCode";
+import SERVICE_TYPE from "./serviceType";
+export {
+  CRUD_CODE,
+  CRUD_MESSAGE,
+  BUTTON_NAME,
+  PAGE,
+  CONSTANT,
+  ROLE_ID,
+  REQUEST_CODE,
+  SERVICE_TYPE,
+};

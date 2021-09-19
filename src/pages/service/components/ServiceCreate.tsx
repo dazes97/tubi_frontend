@@ -5,7 +5,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from "@material-ui/core/MenuItem";
-import Switch from "@material-ui/core/Switch";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { BUTTON_NAME } from "helpers";
 import { Grid } from "@material-ui/core";

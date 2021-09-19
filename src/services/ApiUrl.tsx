@@ -24,5 +24,11 @@ export const URL = {
   BRANCH: {
     RESOURCE: "branch/",
   },
+  REQUEST: {
+    RESOURCE: "request/",
+  },
+  QUOTE: {
+    RESOURCE: "quote/",
+  },
 };
 export default URL;

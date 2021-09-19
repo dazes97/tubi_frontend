@@ -1,5 +1,10 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { AdminRoute, ProtectedRoute, CompanyOwnerRoute } from "components";
+import {
+  AdminRoute,
+  ProtectedRoute,
+  CompanyOwnerRoute,
+  PersonalRoute,
+} from "components";
 import { PAGE } from "helpers";
 import {
   Login,
@@ -12,6 +17,7 @@ import {
   Service,
   Package,
   Branch,
+  Request,
 } from "pages";
 const Routes = () => (
   <BrowserRouter>
@@ -22,6 +28,11 @@ const Routes = () => (
         path={PAGE.INDEX.URL}
         component={Dashboard}
       ></ProtectedRoute>
+      <PersonalRoute
+        exact
+        path={PAGE.REQUEST.INDEX.URL}
+        component={Request}
+      ></PersonalRoute>
       <AdminRoute
         exact
         path={PAGE.PERSONAL_TYPE.INDEX.URL}
@@ -31,6 +42,11 @@ const Routes = () => (
         exact
         path={PAGE.COMPANY_OWNER.INDEX.URL}
         component={CompanyOwner}
+      ></AdminRoute>
+      <AdminRoute
+        exact
+        path={PAGE.COMPANY.INDEX.URL}
+        component={Company}
       ></AdminRoute>
       <CompanyOwnerRoute
         exact
@@ -52,11 +68,7 @@ const Routes = () => (
         path={PAGE.BRANCH.INDEX.URL}
         component={Branch}
       ></CompanyOwnerRoute>
-      <AdminRoute
-        exact
-        path={PAGE.COMPANY.INDEX.URL}
-        component={Company}
-      ></AdminRoute>
+
       <Route exact path={PAGE.NOT_FOUND.URL} component={ErrorPage}></Route>
     </Switch>
   </BrowserRouter>
