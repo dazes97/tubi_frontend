@@ -1,8 +1,8 @@
-import { Box } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { useEffect, useState } from "react";
-import { RequestTable } from ".";
+import { RequestTable } from "./index";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -101,6 +101,22 @@ const RequestTab = (props: TabProps) => {
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <RequestTable
+          onChangeData={onChangeData}
+          onChangeOpenModal={onChangeOpenModal}
+          onChangeOperation={onChangeOperation}
+          data={tableData}
+        />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <RequestTable
+          onChangeData={onChangeData}
+          onChangeOpenModal={onChangeOpenModal}
+          onChangeOperation={onChangeOperation}
+          data={tableData}
+        />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
         <RequestTable
           onChangeData={onChangeData}
           onChangeOpenModal={onChangeOpenModal}

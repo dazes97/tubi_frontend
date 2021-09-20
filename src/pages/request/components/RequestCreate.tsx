@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,21 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import RequestServiceTable from "./RequestServiceTable";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { BUTTON_NAME } from "helpers";
 import { createValidationSchema } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
 import { NotificationSystem } from "components";
 import { serviceListInBranch } from "pages/service/ServiceService";
 import { packageListInBranch } from "pages/package/PackageService";
-import RequestServiceTable from "./RequestServiceTable";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
-// import DateAdapter from "@material-ui/lab/AdapterLuxon";
-// import DateTimePicker from "@material-ui/lab/DateTimePicker";
-// import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-
 interface CreateProps {
   openModal: boolean;
   onReset: any;
@@ -106,7 +101,6 @@ const RequestCreate = (props: CreateProps) => {
   }, []);
 
   const onSubmit: SubmitHandler<RequestCreateInterface> = async (data) => {
-    console.log("data: ", data);
     if (servicesToAdd.length === 0) {
       NotificationSystem({
         message: "Debe Seleccionar al menos un servicio",
@@ -179,11 +173,7 @@ const RequestCreate = (props: CreateProps) => {
   return (
     <div>
       <Dialog open={openModal} onClose={resetFormAndClose}>
-        <form
-          onSubmit={handleSubmit(onSubmit, (e: any) =>
-            console.log("error: ", e)
-          )}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Crear Solicitud</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
@@ -440,21 +430,6 @@ const RequestCreate = (props: CreateProps) => {
                   )}
                 />
               </Grid>
-              {/* <Grid item xs={12} md={6}>
-                <Controller
-                  name="requestDeliveryDateTime"
-                  control={control}
-                  render={({ field }) => (
-                    <LocalizationProvider dateAdapter={DateAdapter}>
-                      <DateTimePicker
-                        label="Date&Time picker"
-                        {...field}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  )}
-                />
-              </Grid> */}
               <Grid item xs={12} md={12}>
                 <Controller
                   name="bikeObservation"
@@ -496,11 +471,6 @@ const RequestCreate = (props: CreateProps) => {
                           onChange={(e) =>
                             onChange(e.target?.files ? e.target.files[0] : null)
                           }
-                          // onChange={(e) =>
-                          //   setFileToUpload(
-                          //     e.target?.files ? e.target.files[0] : null
-                          //   )
-                          // }
                         />
                       </Button>
                     </>

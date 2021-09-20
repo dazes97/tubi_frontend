@@ -5,10 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import AddIcon from "@material-ui/icons/Add";
-import { NotificationSystem, SkeletonLoader } from "components";
-import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
 import CompanyInterface from "./RequestInterface";
 import Layout from "../template";
+import RequestTab from "./components/RequestTab";
+import RequestStatus from "./components/RequestStatus";
+import RequestDetail from "./components/RequestDetail";
+import RequestTimeLine from "./components/RequestTimeLine";
+import { NotificationSystem, SkeletonLoader } from "components";
+import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
 import { RequestCreate } from "./components";
 import {
   requestCreate,
@@ -16,9 +20,6 @@ import {
   requestList,
   requestUpdate,
 } from "./RequestService";
-import RequestTab from "./components/RequestTab";
-import RequestStatus from "./components/RequestStatus";
-import RequestDetail from "./components/RequestDetail";
 const Request = () => {
   const [openModal, setOpenModal] = useState(false);
   const [dataForm, setDataForm] = useState<CompanyInterface>();
@@ -43,7 +44,6 @@ const Request = () => {
       setLoading(true);
       setTimeout(async () => {
         const response = await requestList();
-        console.log("response data: ", response.data);
         setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
@@ -153,22 +153,6 @@ const Request = () => {
             onReset={onReset}
           />
         )}
-        {/* {operation && operation === CRUD_CODE.UPDATE && (
-          <RequestEdit
-            onSendDataToServer={onSendDataToServer}
-            openModal={openModal}
-            data={dataForm}
-            onReset={onReset}
-          />
-        )}
-        {operation && operation === CRUD_CODE.DELETE && (
-          <RequestDelete
-            onSendDataToServer={onSendDataToServer}
-            openModal={openModal}
-            data={dataForm}
-            onReset={onReset}
-          />
-        )} */}
         {operation && operation === CRUD_CODE.EXTRA_1 && (
           <RequestStatus
             onChangeRequestStatus={updateRequestStatus}
@@ -179,6 +163,13 @@ const Request = () => {
         )}
         {operation && operation === CRUD_CODE.EXTRA_2 && (
           <RequestDetail
+            openModal={openModal}
+            data={dataForm}
+            onReset={onReset}
+          />
+        )}
+        {operation && operation === CRUD_CODE.EXTRA_3 && (
+          <RequestTimeLine
             openModal={openModal}
             data={dataForm}
             onReset={onReset}

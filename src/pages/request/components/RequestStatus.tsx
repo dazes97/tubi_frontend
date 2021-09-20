@@ -5,12 +5,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { updateStatusSchema } from "./schemaValidation";
 import { BUTTON_NAME, REQUEST_CODE } from "helpers";
-import Button from "@material-ui/core/Button";
 interface UpdateRequestStatusInterface {
   data: any;
   openModal: boolean;

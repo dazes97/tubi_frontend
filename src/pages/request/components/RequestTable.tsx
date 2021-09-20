@@ -1,10 +1,13 @@
+import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import Receipt from "@material-ui/icons/Receipt";
+import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
+
 import { DateTime } from "luxon";
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import { CRUD_CODE, REQUEST_CODE } from "helpers";
-import Typography from "@material-ui/core/Typography";
-import Chip from "@material-ui/core/Chip";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { Receipt } from "@material-ui/icons";
 interface EditDeleteProps {
   onChangeOperation: any;
   onChangeOpenModal: any;
@@ -61,7 +64,7 @@ const RequestTable = (props: EditDeleteProps) => {
       field: "clientName",
       headerName: "Cliente",
       headerAlign: "center",
-      flex: 0.3,
+      flex: 0.2,
       minWidth: 100,
       align: "center",
       renderCell: ({ row }) => {
@@ -104,8 +107,8 @@ const RequestTable = (props: EditDeleteProps) => {
     },
     {
       field: "action",
-      flex: 0.1,
-      minWidth: 50,
+      flex: 0.2,
+      minWidth: 70,
       headerName: "Acciones",
       headerAlign: "center",
       sortable: false,
@@ -113,15 +116,26 @@ const RequestTable = (props: EditDeleteProps) => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <Tooltip title="Ver Detalles">
-            <IconButton
-              aria-label="Editar Servicios"
-              size="large"
-              onClick={() => handleOperation(CRUD_CODE.EXTRA_2, row)}
-            >
-              <Receipt fontSize="inherit" />
-            </IconButton>
-          </Tooltip>
+          <>
+            <Tooltip title="Ver Detalles">
+              <IconButton
+                aria-label="Ver Detalle"
+                size="large"
+                onClick={() => handleOperation(CRUD_CODE.EXTRA_2, row)}
+              >
+                <Receipt fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Ver Seguimiento">
+              <IconButton
+                aria-label="Ver Seguimiento"
+                size="large"
+                onClick={() => handleOperation(CRUD_CODE.EXTRA_3, row)}
+              >
+                <RemoveRedEyeIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          </>
         );
       },
     },
