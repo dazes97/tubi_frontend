@@ -14,7 +14,7 @@ const BranchPersonalTable = (props: EditDeleteProps) => {
       minWidth: 150,
       align: "center",
       renderCell: ({ row }) => {
-        return <Typography variant="body2">{row.user?.name ?? ""}</Typography>;
+        return <Typography variant="body2">{row.name ?? ""}</Typography>;
       },
     },
     {
@@ -26,7 +26,7 @@ const BranchPersonalTable = (props: EditDeleteProps) => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <Typography variant="body2">{row.user?.lastName ?? ""}</Typography>
+          <Typography variant="body2">{row.lastName ?? ""}</Typography>
         );
       },
     },
@@ -49,7 +49,7 @@ const BranchPersonalTable = (props: EditDeleteProps) => {
       minWidth: 150,
       align: "center",
       renderCell: ({ row }) => {
-        return <Typography variant="body2">{row.user?.email ?? ""}</Typography>;
+        return <Typography variant="body2">{row.email ?? ""}</Typography>;
       },
     },
   ];

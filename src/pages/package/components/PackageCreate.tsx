@@ -25,7 +25,6 @@ interface PackageCreateInterface {
   name: string;
   price: number;
   description: string;
-  status: number;
   location: number;
 }
 const PackageCreate = (props: CreateProps) => {
@@ -43,7 +42,6 @@ const PackageCreate = (props: CreateProps) => {
       name: "",
       price: 0,
       description: "",
-      status: 1,
       location: 0,
     },
   });
@@ -82,7 +80,6 @@ const PackageCreate = (props: CreateProps) => {
       name: "",
       price: 0,
       description: "",
-      status: 1,
       location: 0,
     });
     setServicesToAdd(new Array<any>());
@@ -178,30 +175,30 @@ const PackageCreate = (props: CreateProps) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Controller
-                  name="status"
+                  name="location"
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      error={errors.status?.type === "min"}
+                      error={errors.location?.type === "min"}
                       helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
+                        errors.location?.type === "min" && "Ubicacion es Requerida"
                       }
                       autoFocus
                       margin="dense"
-                      id="status"
-                      label="Estado"
+                      id="location"
+                      label="¿Requiere ubicacion del cliente?"
                       select
                       fullWidth
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={1}>Activo</MenuItem>
-                      <MenuItem value={0}>No Activo</MenuItem>
+                      <MenuItem value={0}>No</MenuItem>
+                      <MenuItem value={1}>Si</MenuItem>
                     </TextField>
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={6} alignItems="center">
+              <Grid item xs={12} md={12} alignItems="center">
                 <TextField
                   autoFocus
                   margin="dense"
@@ -225,31 +222,6 @@ const PackageCreate = (props: CreateProps) => {
                       );
                     })}
                 </TextField>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Controller
-                  name="location"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      error={errors.status?.type === "min"}
-                      helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
-                      }
-                      autoFocus
-                      margin="dense"
-                      id="location"
-                      label="¿Requiere ubicacion del cliente?"
-                      select
-                      fullWidth
-                      variant="outlined"
-                      {...field}
-                    >
-                      <MenuItem value={0}>No</MenuItem>
-                      <MenuItem value={1}>Si</MenuItem>
-                    </TextField>
-                  )}
-                />
               </Grid>
               <Grid item xs={12} md={12}>
                 {servicesToAdd && servicesToAdd.length !== 0 && (

@@ -19,7 +19,6 @@ interface ServiceCreateInterface {
   name: string;
   price: number;
   description: string;
-  status: number;
   location: number;
 }
 const ServiceCreate = (props: CreateProps) => {
@@ -35,7 +34,6 @@ const ServiceCreate = (props: CreateProps) => {
       name: "",
       price: 0,
       description: "",
-      status: 1,
       location: 0,
     },
   });
@@ -49,7 +47,6 @@ const ServiceCreate = (props: CreateProps) => {
       name: "",
       price: 0,
       description: "",
-      status: 1,
       location: 0,
     });
   };
@@ -110,7 +107,7 @@ const ServiceCreate = (props: CreateProps) => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={6}>
                 <Controller
                   name="price"
                   control={control}
@@ -134,38 +131,14 @@ const ServiceCreate = (props: CreateProps) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Controller
-                  name="status"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      error={errors.status?.type === "min"}
-                      helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
-                      }
-                      autoFocus
-                      margin="dense"
-                      id="status"
-                      label="Estado"
-                      select
-                      fullWidth
-                      variant="outlined"
-                      {...field}
-                    >
-                      <MenuItem value={1}>Activo</MenuItem>
-                      <MenuItem value={0}>No Activo</MenuItem>
-                    </TextField>
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Controller
                   name="location"
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      error={errors.status?.type === "min"}
+                      error={errors.location?.type === "min"}
                       helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
+                        errors.location?.type === "min" &&
+                        "Ubicacion es Requerida"
                       }
                       autoFocus
                       margin="dense"

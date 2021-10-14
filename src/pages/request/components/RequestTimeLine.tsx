@@ -36,17 +36,17 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
   };
   const findStatus = (item: any) => {
     switch (item.status) {
-      case REQUEST_CODE.RECEIVED.CODE.toString():
+      case REQUEST_CODE.RECEIVED.CODE:
         return REQUEST_CODE.RECEIVED.NAME;
-      case REQUEST_CODE.ACCEPTED.CODE.toString():
+      case REQUEST_CODE.ACCEPTED.CODE:
         return REQUEST_CODE.ACCEPTED.NAME;
-      case REQUEST_CODE.DENIED.CODE.toString():
+      case REQUEST_CODE.DENIED.CODE:
         return REQUEST_CODE.DENIED.NAME;
-      case REQUEST_CODE.DELIVERED.CODE.toString():
+      case REQUEST_CODE.DELIVERED.CODE:
         return REQUEST_CODE.DELIVERED.NAME;
-      case REQUEST_CODE.FINISHED.CODE.toString():
+      case REQUEST_CODE.FINISHED.CODE:
         return REQUEST_CODE.FINISHED.NAME;
-      case REQUEST_CODE.PROCESS.CODE.toString():
+      case REQUEST_CODE.PROCESS.CODE:
         return REQUEST_CODE.PROCESS.NAME;
       default:
         return "Sin Definir";
@@ -54,17 +54,17 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
   };
   const findIcon = (item: any) => {
     switch (item.status) {
-      case REQUEST_CODE.RECEIVED.CODE.toString():
+      case REQUEST_CODE.RECEIVED.CODE:
         return <Receipt />;
-      case REQUEST_CODE.ACCEPTED.CODE.toString():
+      case REQUEST_CODE.ACCEPTED.CODE:
         return <CheckIcon />;
-      case REQUEST_CODE.DENIED.CODE.toString():
+      case REQUEST_CODE.DENIED.CODE:
         return <CancelIcon />;
-      case REQUEST_CODE.DELIVERED.CODE.toString():
+      case REQUEST_CODE.DELIVERED.CODE:
         return <DeliveryDiningIcon />;
-      case REQUEST_CODE.FINISHED.CODE.toString():
+      case REQUEST_CODE.FINISHED.CODE:
         return <AssignmentTurnedInIcon />;
-      case REQUEST_CODE.PROCESS.CODE.toString():
+      case REQUEST_CODE.PROCESS.CODE:
         return <BuildIcon />;
       default:
         return <HelpIcon />;

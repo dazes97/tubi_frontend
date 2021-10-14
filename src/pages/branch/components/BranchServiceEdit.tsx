@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { BUTTON_NAME } from "helpers";
 import { serviceList as serviceListFetch } from "pages/service/ServiceService";
 import { NotificationSystem } from "components";
-import BranchPackageTable from "./BranchPackageTable";
+import BranchServiceTable from "./BranchServiceTable";
 interface EditProps {
   data: any;
   openModal: boolean;
@@ -21,12 +21,11 @@ interface EditProps {
 const BranchServiceEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
   const [serviceList, setServiceList] = useState(new Array<any>());
-  const [serviceOfBranch, setServiceOfBranch] = useState(
-    data.services ? data.services.filter((e: any) => e.type === "1") : []
-  );
+  const [serviceOfBranch, setServiceOfBranch] = useState([]);
   const [servicesToAddOrDelete, setServicesToAddOrDelete] = useState({
     toDelete: new Array<any>(),
     toAdd: new Array<any>(),
+    toChangeStatus: new Array<any>(),
   });
   const fetchServiceList = async () => {
     try {
@@ -46,9 +45,12 @@ const BranchServiceEdit = (props: EditProps) => {
     setServicesToAddOrDelete({
       toDelete: new Array<any>(),
       toAdd: new Array<any>(),
+      toChangeStatus: new Array<any>(),
     });
     setServiceOfBranch(
-      data.services ? data.services.filter((e: any) => e.type === "1") : []
+      data.services[0]
+        ? data.services[0].filter((e: any) => e.type === "1")
+        : []
     );
   }, [data]);
   const onSubmit = () => {
@@ -58,6 +60,9 @@ const BranchServiceEdit = (props: EditProps) => {
         services: {
           toAdd: servicesToAddOrDelete.toAdd?.map((e: any) => e.id),
           toDelete: servicesToAddOrDelete.toDelete?.map((e: any) => e.id),
+          toChangeStatus: servicesToAddOrDelete.toChangeStatus?.map(
+            (e: any) => e.id
+          ),
         },
       });
       closeForm();
@@ -65,6 +70,44 @@ const BranchServiceEdit = (props: EditProps) => {
       NotificationSystem({
         type: "error",
         message: "Paquete debe tener al menos un servicio",
+      });
+    }
+  };
+  const onChangeServiceStatus = (element: any, status: any) => {
+    //update the view
+    setServiceOfBranch((prev: any) => {
+      let reWriteArray = prev;
+      const objIndex = prev.findIndex((x: any) => {
+        return x.id === element.id;
+      });
+      const updatedElement = { ...prev[objIndex], status };
+      reWriteArray = [
+        ...prev.slice(0, objIndex),
+        updatedElement,
+        ...prev.slice(objIndex + 1),
+      ];
+      return reWriteArray;
+    });
+    //update the array to update
+    if (
+      !servicesToAddOrDelete?.toChangeStatus?.find(
+        (e: any) => e.id === element.id
+      )
+    ) {
+      setServicesToAddOrDelete((prev) => {
+        return {
+          ...prev,
+          toChangeStatus: [...prev.toChangeStatus, element],
+        };
+      });
+    } else {
+      setServicesToAddOrDelete((prev: any) => {
+        return {
+          ...prev,
+          toChangeStatus: prev.toChangeStatus.filter(
+            (e: any) => e.id !== element.id
+          ),
+        };
       });
     }
   };
@@ -84,11 +127,12 @@ const BranchServiceEdit = (props: EditProps) => {
       });
     }
   };
-  const addPackageToBranch = (elementId: any) => {
+  const addServiceToBranch = (elementId: any) => {
     const findService = serviceList?.find((e: any) => e.id === elementId);
     if (!findService) return;
     //clean item from servicesToAddOrDelete and insert in a clean push
     setServiceOfBranch((prev: any) => {
+      if (prev.find((e: any) => e.id === elementId)) return prev;
       const reWriteArray = prev.filter((e: any) => e.id !== elementId) ?? [];
       reWriteArray.push(findService);
       return reWriteArray;
@@ -116,11 +160,14 @@ const BranchServiceEdit = (props: EditProps) => {
   const resetDefaultValuesForm = () => {
     closeForm();
     setServiceOfBranch(
-      data.services ? data.services.filter((e: any) => e.type === "1") : []
+      data.services[0]
+        ? data.services[0].filter((e: any) => e.type === "1")
+        : []
     );
     setServicesToAddOrDelete({
       toDelete: new Array<any>(),
       toAdd: new Array<any>(),
+      toChangeStatus: new Array<any>(),
     });
   };
 
@@ -140,7 +187,7 @@ const BranchServiceEdit = (props: EditProps) => {
                 select
                 fullWidth
                 variant="outlined"
-                onChange={(e) => addPackageToBranch(e.target.value)}
+                onChange={(e) => addServiceToBranch(e.target.value)}
               >
                 <MenuItem key="-1" value={-1}>
                   Seleccionar
@@ -157,7 +204,10 @@ const BranchServiceEdit = (props: EditProps) => {
             </Grid>
             <Grid item xs={12} md={12}>
               {serviceOfBranch && (
-                <BranchPackageTable
+                <BranchServiceTable
+                  onChangeServiceStatus={(data: any, status: any) => {
+                    return onChangeServiceStatus(data, status);
+                  }}
                   onChangeData={(data: any) => deleteServiceFromPackage(data)}
                   data={serviceOfBranch}
                 />

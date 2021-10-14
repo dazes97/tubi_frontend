@@ -21,12 +21,11 @@ interface EditProps {
 const BranchPackageEdit = (props: EditProps) => {
   const { data, openModal, onReset, onSendDataToServer } = props;
   const [packagesList, setPackagesList] = useState(new Array<any>());
-  const [packageOfBranch, setPackageOfBranch] = useState(
-    data.services ? data.services.filter((e: any) => e.type === "2") : []
-  );
+  const [packageOfBranch, setPackageOfBranch] = useState([]);
   const [packagesToAddOrDelete, setPackagesToAddOrDelete] = useState({
     toDelete: new Array<any>(),
     toAdd: new Array<any>(),
+    toChangeStatus: new Array<any>(),
   });
   const fetchPackagesList = async () => {
     try {
@@ -46,9 +45,12 @@ const BranchPackageEdit = (props: EditProps) => {
     setPackagesToAddOrDelete({
       toDelete: new Array<any>(),
       toAdd: new Array<any>(),
+      toChangeStatus: new Array<any>(),
     });
     setPackageOfBranch(
-      data.services ? data.services.filter((e: any) => e.type === "2") : []
+      data.services[0]
+        ? data.services[0].filter((e: any) => e.type === "2")
+        : []
     );
   }, [data]);
   const onSubmit = () => {
@@ -58,6 +60,9 @@ const BranchPackageEdit = (props: EditProps) => {
         packages: {
           toAdd: packagesToAddOrDelete.toAdd?.map((e: any) => e.id),
           toDelete: packagesToAddOrDelete.toDelete?.map((e: any) => e.id),
+          toChangeStatus: packagesToAddOrDelete.toChangeStatus?.map(
+            (e: any) => e.id
+          ),
         },
       });
       closeForm();
@@ -65,6 +70,44 @@ const BranchPackageEdit = (props: EditProps) => {
       NotificationSystem({
         type: "error",
         message: "Paquete debe tener al menos un servicio",
+      });
+    }
+  };
+  const onChangeServiceStatus = (element: any, status: any) => {
+    //update the view
+    setPackageOfBranch((prev: any) => {
+      let reWriteArray = prev;
+      const objIndex = prev.findIndex((x: any) => {
+        return x.id === element.id;
+      });
+      const updatedElement = { ...prev[objIndex], status };
+      reWriteArray = [
+        ...prev.slice(0, objIndex),
+        updatedElement,
+        ...prev.slice(objIndex + 1),
+      ];
+      return reWriteArray;
+    });
+    //update the array to update
+    if (
+      !packagesToAddOrDelete?.toChangeStatus?.find(
+        (e: any) => e.id === element.id
+      )
+    ) {
+      setPackagesToAddOrDelete((prev) => {
+        return {
+          ...prev,
+          toChangeStatus: [...prev.toChangeStatus, element],
+        };
+      });
+    } else {
+      setPackagesToAddOrDelete((prev: any) => {
+        return {
+          ...prev,
+          toChangeStatus: prev.toChangeStatus.filter(
+            (e: any) => e.id !== element.id
+          ),
+        };
       });
     }
   };
@@ -89,6 +132,7 @@ const BranchPackageEdit = (props: EditProps) => {
     if (!findService) return;
     //clean item from servicesToAddOrDelete and insert in a clean push
     setPackageOfBranch((prev: any) => {
+      if (prev.find((e: any) => e.id === elementId)) return prev;
       const reWriteArray = prev.filter((e: any) => e.id !== elementId) ?? [];
       reWriteArray.push(findService);
       return reWriteArray;
@@ -116,11 +160,14 @@ const BranchPackageEdit = (props: EditProps) => {
   const resetDefaultValuesForm = () => {
     closeForm();
     setPackageOfBranch(
-      data.services ? data.services.filter((e: any) => e.type === "2") : []
+      data.services[0]
+        ? data.services[0].filter((e: any) => e.type === "2")
+        : []
     );
     setPackagesToAddOrDelete({
       toDelete: new Array<any>(),
       toAdd: new Array<any>(),
+      toChangeStatus: new Array<any>(),
     });
   };
 
@@ -158,6 +205,9 @@ const BranchPackageEdit = (props: EditProps) => {
             <Grid item xs={12} md={12}>
               {packageOfBranch && (
                 <BranchPackageTable
+                  onChangeServiceStatus={(data: any, status: any) => {
+                    return onChangeServiceStatus(data, status);
+                  }}
                   onChangeData={(data: any) => deleteServiceFromPackage(data)}
                   data={packageOfBranch}
                 />

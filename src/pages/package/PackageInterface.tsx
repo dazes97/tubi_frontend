@@ -3,7 +3,6 @@ export interface PackageInterface {
   name: string;
   price: number;
   description: string;
-  status: number;
   services?: any;
 }
 

@@ -25,7 +25,6 @@ interface PackageEditInterface {
   name: string;
   price: number;
   description: string;
-  status: string;
   location: string;
   services: [];
 }
@@ -64,7 +63,6 @@ const PackageEdit = (props: EditProps) => {
       name: data.name,
       price: data.price,
       description: data.description,
-      status: data.status,
       services: data.services,
       location: data.location,
     });
@@ -140,7 +138,6 @@ const PackageEdit = (props: EditProps) => {
       name: data.name,
       price: data.price,
       description: data.description,
-      status: data.status,
       services: data.services,
       location: data.location,
     });
@@ -227,30 +224,31 @@ const PackageEdit = (props: EditProps) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Controller
-                  name="status"
+                  name="location"
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      error={errors.status?.type === "min"}
+                      error={errors.location?.type === "min"}
                       helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
+                        errors.location?.type === "min" &&
+                        "Ubicacion es Requerida"
                       }
                       autoFocus
                       margin="dense"
-                      id="status"
-                      label="Estado"
+                      id="location"
+                      label="¿Requiere ubicacion del cliente?"
                       select
                       fullWidth
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={1}>Activo</MenuItem>
-                      <MenuItem value={0}>No Activo</MenuItem>
+                      <MenuItem value={0}>No</MenuItem>
+                      <MenuItem value={1}>Si</MenuItem>
                     </TextField>
                   )}
                 />
               </Grid>
-              <Grid item xs={12} md={6} alignItems="center">
+              <Grid item xs={12} md={12} alignItems="center">
                 <TextField
                   autoFocus
                   margin="dense"
@@ -274,31 +272,6 @@ const PackageEdit = (props: EditProps) => {
                       );
                     })}
                 </TextField>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Controller
-                  name="location"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      error={errors.status?.type === "min"}
-                      helperText={
-                        errors.status?.type === "min" && "Estado es Requerido"
-                      }
-                      autoFocus
-                      margin="dense"
-                      id="location"
-                      label="¿Requiere ubicacion del cliente?"
-                      select
-                      fullWidth
-                      variant="outlined"
-                      {...field}
-                    >
-                      <MenuItem value={0}>No</MenuItem>
-                      <MenuItem value={1}>Si</MenuItem>
-                    </TextField>
-                  )}
-                />
               </Grid>
               <Grid item xs={12} md={12}>
                 {packageServices && packageServices.length !== 0 && (

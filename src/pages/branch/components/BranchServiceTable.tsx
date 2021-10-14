@@ -1,14 +1,41 @@
 import DeleteIcon from "@material-ui/icons/Delete";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import LockIcon from "@material-ui/icons/Lock";
 import { DataGrid, GridColDef } from "@material-ui/data-grid";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 interface EditDeleteProps {
+  onChangeServiceStatus: any;
   onChangeData: any;
   data: any;
 }
 const BranchServiceTable = (props: EditDeleteProps) => {
-  const { onChangeData, data } = props;
+  const { onChangeServiceStatus, onChangeData, data } = props;
   const handleOperation = (data: any) => {
     onChangeData(data);
+  };
+  const renderStatus = (element: any) => {
+    return element.status === "1" ? (
+      <Tooltip title="Deshabilitar">
+        <IconButton
+          aria-label="change"
+          size="large"
+          onClick={() => onChangeServiceStatus(element, "0")}
+        >
+          <LockOpenIcon fontSize="inherit" />
+        </IconButton>
+      </Tooltip>
+    ) : (
+      <Tooltip title="Habilitar">
+        <IconButton
+          aria-label="change"
+          size="large"
+          onClick={() => onChangeServiceStatus(element, "1")}
+        >
+          <LockIcon fontSize="inherit" />
+        </IconButton>
+      </Tooltip>
+    );
   };
   const columns: GridColDef[] = [
     {
@@ -39,13 +66,16 @@ const BranchServiceTable = (props: EditDeleteProps) => {
       renderCell: ({ row }) => {
         return (
           <div>
-            <IconButton
-              aria-label="delete"
-              size="large"
-              onClick={() => handleOperation(row)}
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
+            <Tooltip title="Eliminar">
+              <IconButton
+                aria-label="delete"
+                size="large"
+                onClick={() => handleOperation(row)}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            {row.status && renderStatus(row)}
           </div>
         );
       },
