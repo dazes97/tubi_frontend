@@ -1,7 +1,7 @@
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CRUD_CODE, BUTTON_NAME } from "helpers";
 interface EditDeleteProps {
   onChangeOperation: any;

@@ -1,13 +1,13 @@
-import DirectionsBikeIcon from "@material-ui/icons/DirectionsBike";
-import AutoAwesomeMotionIcon from "@material-ui/icons/AutoAwesomeMotion";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import AccessibilityIcon from "@material-ui/icons/Accessibility";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
+import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CRUD_CODE } from "helpers";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Chip from "@material-ui/core/Chip";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Chip from "@mui/material/Chip";
 interface EditDeleteProps {
   onChangeOperation: any;
   onChangeOpenModal: any;

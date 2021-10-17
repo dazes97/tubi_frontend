@@ -1,8 +1,8 @@
-import { experimentalStyled as styled } from "@material-ui/core/styles";
-import MuiDrawer from "@material-ui/core/Drawer";
+import { experimentalStyled as styled } from "@mui/material/styles";
+import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, {
   AppBarProps as MuiAppBarProps,
-} from "@material-ui/core/AppBar";
+} from "@mui/material/AppBar";
 const drawerWidth: number = 240;
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;

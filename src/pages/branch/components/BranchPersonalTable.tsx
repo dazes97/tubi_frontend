@@ -1,5 +1,5 @@
-import Typography from "@material-ui/core/Typography";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import Typography from "@mui/material/Typography";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 interface EditDeleteProps {
   data: any;
 }

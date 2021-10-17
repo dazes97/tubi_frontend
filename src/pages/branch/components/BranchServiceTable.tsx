@@ -1,9 +1,9 @@
-import DeleteIcon from "@material-ui/icons/Delete";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import LockIcon from "@material-ui/icons/Lock";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockIcon from "@mui/icons-material/Lock";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 interface EditDeleteProps {
   onChangeServiceStatus: any;
   onChangeData: any;

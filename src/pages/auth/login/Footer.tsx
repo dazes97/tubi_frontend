@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Link, Typography } from "@material-ui/core";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+
 export default function Footer(props: any) {
   return (
     <Typography

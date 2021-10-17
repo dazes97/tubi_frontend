@@ -1,4 +1,4 @@
-import { Skeleton } from "@material-ui/core";
+import Skeleton from "@mui/material/Skeleton";
 interface SkeletonProps {
   animation?: any;
   component?: any;

@@ -1,27 +1,27 @@
 import { useState } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Box from "@material-ui/core/Box";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Link from "@mui/material/Link";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MenuItemsList } from "./TemplateListItem";
 import { AppBar, Drawer } from "./index.style";
 import RightMenu from "./TemplateRightMenu";
-//import Badge from "@material-ui/core/Badge";
-//import { useMediaQuery } from "@material-ui/core";
-//import NotificationsIcon from "@material-ui/icons/Notifications";
+//import Badge from "@mui/material/Badge";
+//import { useMediaQuery } from "@mui/material";
+//import NotificationsIcon from "@mui/icons-material/Notifications";
 //import customTheme from "./customTheme";
-//import { ThemeProvider } from "@material-ui/system";
+//import { ThemeProvider } from "@mui/system";
 
 function Copyright(props: any) {
   return (
@@ -32,7 +32,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://mui.com/">
         Tu Bicicleta Bolivia
       </Link>{" "}
       {new Date().getFullYear()}

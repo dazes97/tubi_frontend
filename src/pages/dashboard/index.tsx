@@ -1,5 +1,5 @@
-import { Typography } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import Layout from "../template";
 const Dashboard = () => {
   return (

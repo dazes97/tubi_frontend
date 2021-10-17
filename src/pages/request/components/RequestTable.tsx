@@ -1,12 +1,12 @@
-import Typography from "@material-ui/core/Typography";
-import Chip from "@material-ui/core/Chip";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Receipt from "@material-ui/icons/Receipt";
-import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Receipt from "@mui/icons-material/Receipt";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import { DateTime } from "luxon";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CRUD_CODE, REQUEST_CODE } from "helpers";
 interface EditDeleteProps {
   onChangeOperation: any;
