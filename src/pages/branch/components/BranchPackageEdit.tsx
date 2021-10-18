@@ -54,24 +54,24 @@ const BranchPackageEdit = (props: EditProps) => {
     );
   }, [data]);
   const onSubmit = () => {
-    if (packageOfBranch.length > 0) {
-      onSendDataToServer({
-        id: data.id,
-        packages: {
-          toAdd: packagesToAddOrDelete.toAdd?.map((e: any) => e.id),
-          toDelete: packagesToAddOrDelete.toDelete?.map((e: any) => e.id),
-          toChangeStatus: packagesToAddOrDelete.toChangeStatus?.map(
-            (e: any) => e.id
-          ),
-        },
-      });
-      closeForm();
-    } else {
-      NotificationSystem({
-        type: "error",
-        message: "Paquete debe tener al menos un servicio",
-      });
-    }
+    onSendDataToServer({
+      id: data.id,
+      packages: {
+        toAdd: packagesToAddOrDelete.toAdd?.map((e: any) => e.id),
+        toDelete: packagesToAddOrDelete.toDelete?.map((e: any) => e.id),
+        toChangeStatus: packagesToAddOrDelete.toChangeStatus?.map(
+          (e: any) => e.id
+        ),
+      },
+    });
+    closeForm();
+    //   if (packageOfBranch.length > 0) {
+    // } else {
+    //   NotificationSystem({
+    //     type: "error",
+    //     message: "Paquete debe tener al menos un servicio",
+    //   });
+    // }
   };
   const onChangeServiceStatus = (element: any, status: any) => {
     //update the view

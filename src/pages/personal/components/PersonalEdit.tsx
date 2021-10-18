@@ -62,9 +62,7 @@ const PersonalEdit = (props: EditProps) => {
   const fetchBrachList = useCallback(async () => {
     try {
       const response = await branchList();
-      setBranchSelect(
-        response.data.filter((e: any) => e.id !== data.branch.id)
-      );
+      setBranchSelect(response.data.filter((e: any) => e.id !== data.branchId));
     } catch (e) {
       NotificationSystem({
         type: "error",
@@ -82,8 +80,8 @@ const PersonalEdit = (props: EditProps) => {
       lastName: data.user.lastName,
       address: data.address,
       bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      branchId: data.branchId,
+      personalTypeId: data.personalType?.id ?? "-1",
+      branchId: data.branch?.id ?? "-1",
       dni: data.dni,
       email: data.user.email,
       gender: data.user.gender ?? "",
@@ -104,8 +102,8 @@ const PersonalEdit = (props: EditProps) => {
       lastName: data.user.lastName,
       address: data.address,
       bornDate: DateTime.fromISO(data.bornDate).toFormat("yyyy-MM-dd"),
-      personalTypeId: data.personalType.id,
-      branchId: data.branchId,
+      personalTypeId: data.personalType?.id ?? "-1",
+      branchId: data.branch?.id ?? "-1",
       dni: data.dni,
       email: data.user.email,
       gender: data.user.gender ?? "",
@@ -285,9 +283,13 @@ const PersonalEdit = (props: EditProps) => {
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={data.personalType.id}>
-                        {data.personalType.name}
-                      </MenuItem>
+                      {data.personalType?.id ? (
+                        <MenuItem value={data.personalType.id}>
+                          {data.personalType.name}
+                        </MenuItem>
+                      ) : (
+                        <MenuItem value={"-1"}>Seleccione</MenuItem>
+                      )}
                       {personalTypeSelect &&
                         personalTypeSelect.map((e: any, key) => (
                           <MenuItem key={key} value={e.id}>
@@ -318,10 +320,14 @@ const PersonalEdit = (props: EditProps) => {
                       variant="outlined"
                       {...field}
                     >
-                      <MenuItem value={data.branch.id}>
-                        {data.branch.name}
-                      </MenuItem>
-                      {personalTypeSelect &&
+                      {data.branch?.id ? (
+                        <MenuItem value={data.branch.id}>
+                          {data.branch.name}
+                        </MenuItem>
+                      ) : (
+                        <MenuItem value={"-1"}>Seleccione</MenuItem>
+                      )}
+                      {branchSelect &&
                         branchSelect.map((e: any, key) => (
                           <MenuItem key={key} value={e.id}>
                             {e.name}

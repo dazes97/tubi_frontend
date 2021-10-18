@@ -181,7 +181,8 @@ const PackageCreate = (props: CreateProps) => {
                     <TextField
                       error={errors.location?.type === "min"}
                       helperText={
-                        errors.location?.type === "min" && "Ubicacion es Requerida"
+                        errors.location?.type === "min" &&
+                        "Ubicacion es Requerida"
                       }
                       autoFocus
                       margin="dense"

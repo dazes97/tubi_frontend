@@ -39,7 +39,7 @@ const PackageEdit = (props: EditProps) => {
     resolver: yupResolver(editValidationSchema),
   });
   const [servicesList, setServicesList] = useState(new Array<any>());
-  const [packageServices, setPackageServices] = useState(data.services ?? []);
+  const [packageServices, setPackageServices] = useState([]);
   const [servicesToAddOrDelete, setServicesToAddOrDelete] = useState({
     toDelete: new Array<any>(),
     toAdd: new Array<any>(),
@@ -63,14 +63,14 @@ const PackageEdit = (props: EditProps) => {
       name: data.name,
       price: data.price,
       description: data.description,
-      services: data.services,
+      services: data.services[0],
       location: data.location,
     });
     setServicesToAddOrDelete({
       toDelete: new Array<any>(),
       toAdd: new Array<any>(),
     });
-    setPackageServices(data.services);
+    setPackageServices(data.services[0] ?? []);
   }, [data, reset]);
   const onSubmit: SubmitHandler<PackageEditInterface> = (formData) => {
     if (packageServices.length !== 0) {
@@ -134,14 +134,19 @@ const PackageEdit = (props: EditProps) => {
     onReset();
   };
   const resetDefaultValuesForm = () => {
+    closeForm();
     reset({
       name: data.name,
       price: data.price,
       description: data.description,
-      services: data.services,
+      services: data.services[0],
       location: data.location,
     });
-    closeForm();
+    setServicesToAddOrDelete({
+      toDelete: new Array<any>(),
+      toAdd: new Array<any>(),
+    });
+    setPackageServices(data.services[0] ?? []);
   };
 
   return (
