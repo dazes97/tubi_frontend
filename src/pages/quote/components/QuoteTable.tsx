@@ -13,8 +13,7 @@ interface EditDeleteProps {
   onChangeData: any;
   data: any;
 }
-
-const RequestTable = (props: EditDeleteProps) => {
+const QuoteTable = (props: EditDeleteProps) => {
   const { onChangeOperation, onChangeOpenModal, onChangeData, data } = props;
 
   const handleOperation = (operation: any, data: any) => {
@@ -23,7 +22,7 @@ const RequestTable = (props: EditDeleteProps) => {
     onChangeOpenModal();
   };
   const findStatus = (row: any) => {
-    switch (row.requestStatus) {
+    switch (row.quoteStatus) {
       case REQUEST_CODE.RECEIVED.CODE.toString():
         return REQUEST_CODE.RECEIVED.NAME;
       case REQUEST_CODE.ACCEPTED.CODE.toString():
@@ -56,10 +55,9 @@ const RequestTable = (props: EditDeleteProps) => {
         );
     }
   };
-
   const columns: GridColDef[] = [
     {
-      field: "requestCreatedAt",
+      field: "quoteCreatedAt",
       headerName: "Fecha y Hora",
       headerAlign: "center",
       flex: 0.2,
@@ -68,7 +66,7 @@ const RequestTable = (props: EditDeleteProps) => {
       renderCell: ({ row }) => {
         return (
           <Typography variant="body2">
-            {DateTime.fromISO(row.requestDeliveryDateTime).toLocaleString(
+            {DateTime.fromISO(row.quoteCreatedAt).toLocaleString(
               DateTime.DATETIME_SHORT
             )}
           </Typography>
@@ -91,18 +89,22 @@ const RequestTable = (props: EditDeleteProps) => {
       },
     },
     {
-      field: "requestTotal",
-      headerName: "Total (Bs.)",
+      field: "quoteType",
+      headerName: "Tipo",
       headerAlign: "center",
       flex: 0.2,
       minWidth: 70,
       align: "center",
       renderCell: ({ row }) => {
-        return <Typography variant="body2">{row.requestTotal}</Typography>;
+        return (
+          <Typography variant="body2">
+            {row.quoteType === "0" ? "Producto" : "Servicio"}
+          </Typography>
+        );
       },
     },
     {
-      field: "requestStatus",
+      field: "quoteStatus",
       headerName: "Estado",
       headerAlign: "center",
       flex: 0.2,
@@ -158,4 +160,4 @@ const RequestTable = (props: EditDeleteProps) => {
     />
   );
 };
-export default RequestTable;
+export default QuoteTable;

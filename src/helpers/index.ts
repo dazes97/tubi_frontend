@@ -5,6 +5,7 @@ import PAGE from "./page";
 import CONSTANT from "./generalConstants";
 import ROLE_ID from "./roleConstant";
 import REQUEST_CODE from "./requestCode";
+import QUOTE_CODE from "./quoteCode";
 import SERVICE_TYPE from "./serviceType";
 export {
   CRUD_CODE,
@@ -15,4 +16,5 @@ export {
   ROLE_ID,
   REQUEST_CODE,
   SERVICE_TYPE,
+  QUOTE_CODE,
 };

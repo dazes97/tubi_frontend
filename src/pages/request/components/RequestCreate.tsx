@@ -110,6 +110,9 @@ const RequestCreate = (props: CreateProps) => {
     }
     onSendDataToServer({
       ...data,
+      requestDeliveryDateTime: new Date(
+        data.requestDeliveryDateTime
+      ).toISOString(),
       services: servicesToAdd,
       bikePhoto: data.bikePhoto ? await toBase64(data.bikePhoto) : null,
     });

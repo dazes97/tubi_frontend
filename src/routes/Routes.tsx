@@ -18,6 +18,7 @@ import {
   Package,
   Branch,
   Request,
+  Quote,
 } from "pages";
 const Routes = () => (
   <BrowserRouter>
@@ -32,6 +33,11 @@ const Routes = () => (
         exact
         path={PAGE.REQUEST.INDEX.URL}
         component={Request}
+      ></PersonalRoute>
+      <PersonalRoute
+        exact
+        path={PAGE.QUOTE.INDEX.URL}
+        component={Quote}
       ></PersonalRoute>
       <AdminRoute
         exact

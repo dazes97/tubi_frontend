@@ -10,25 +10,25 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { updateStatusSchema } from "./schemaValidation";
-import { BUTTON_NAME, REQUEST_CODE } from "helpers";
-interface UpdateRequestStatusInterface {
+import { BUTTON_NAME, QUOTE_CODE } from "helpers";
+interface UpdateQuoteStatusInterface {
   data: any;
   openModal: boolean;
   onReset: any;
   onChangeRequestStatus: any;
 }
-interface RequestStatusInterface {
+interface QuoteStatusInterface {
   status: number;
   observation: string;
 }
-const RequestStatus = (props: UpdateRequestStatusInterface) => {
+const QuoteStatus = (props: UpdateQuoteStatusInterface) => {
   const { data, openModal, onReset, onChangeRequestStatus } = props;
   const {
     handleSubmit,
     control,
     reset,
     formState: { errors },
-  } = useForm<RequestStatusInterface>({
+  } = useForm<QuoteStatusInterface>({
     resolver: yupResolver(updateStatusSchema),
   });
   useEffect(() => {
@@ -42,7 +42,7 @@ const RequestStatus = (props: UpdateRequestStatusInterface) => {
       status: -1,
     });
   };
-  const onSubmit: SubmitHandler<RequestStatusInterface> = (formData) => {
+  const onSubmit: SubmitHandler<QuoteStatusInterface> = (formData) => {
     onChangeRequestStatus(data, formData);
     closeForm();
   };
@@ -59,7 +59,7 @@ const RequestStatus = (props: UpdateRequestStatusInterface) => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle id="alert-dialog-title">
-          {"Cambiar Estado Solicitud"}
+          {"Cambiar Estado Cotizacion"}
         </DialogTitle>
         <DialogContent>
           <Grid container>
@@ -83,34 +83,34 @@ const RequestStatus = (props: UpdateRequestStatusInterface) => {
                     {...field}
                   >
                     <MenuItem value={-1}>Seleccione</MenuItem>
-                    {Object.keys(REQUEST_CODE).map((k, i) => {
+                    {Object.keys(QUOTE_CODE).map((k, i) => {
                       if (
-                        Number(Object.values(REQUEST_CODE)[i].CODE) ===
-                          Number(REQUEST_CODE.PROCESS.CODE) &&
-                        Number(REQUEST_CODE.PROCESS.CODE) ===
-                          Number(data.requestStatus)
+                        Number(Object.values(QUOTE_CODE)[i].CODE) ===
+                          Number(QUOTE_CODE.PROCESS.CODE) &&
+                        Number(QUOTE_CODE.PROCESS.CODE) ===
+                          Number(data.quoteStatus)
                       ) {
                         return (
                           <MenuItem
-                            value={REQUEST_CODE.PROCESS.CODE}
-                            key={REQUEST_CODE.PROCESS.CODE}
+                            value={QUOTE_CODE.PROCESS.CODE}
+                            key={QUOTE_CODE.PROCESS.CODE}
                           >
-                            {REQUEST_CODE.PROCESS.NAME}
+                            {QUOTE_CODE.PROCESS.NAME}
                           </MenuItem>
                         );
                       }
                       if (
-                        Number(Object.values(REQUEST_CODE)[i].CODE) <=
-                        Number(data.requestStatus)
+                        Number(Object.values(QUOTE_CODE)[i].CODE) <=
+                        Number(data.quoteStatus)
                       )
                         return null;
 
                       return (
                         <MenuItem
-                          value={Object.values(REQUEST_CODE)[i].CODE}
+                          value={Object.values(QUOTE_CODE)[i].CODE}
                           key={i}
                         >
-                          {Object.values(REQUEST_CODE)[i].NAME}
+                          {Object.values(QUOTE_CODE)[i].NAME}
                         </MenuItem>
                       );
                     })}
@@ -157,4 +157,4 @@ const RequestStatus = (props: UpdateRequestStatusInterface) => {
     </Dialog>
   );
 };
-export default RequestStatus;
+export default QuoteStatus;

@@ -20,12 +20,12 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { BUTTON_NAME, REQUEST_CODE } from "helpers";
 import { DateTime } from "luxon";
-interface RequestDetailInterface {
+interface QuoteDetailInterface {
   data: any;
   openModal: boolean;
   onReset: any;
 }
-const RequestTimeLine = (props: RequestDetailInterface) => {
+const QuoteTimeLine = (props: QuoteDetailInterface) => {
   const { data, openModal, onReset } = props;
 
   const resetDefaultValuesForm = () => {
@@ -90,26 +90,21 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
           <Grid item xs={12} md={6}>
             <Typography variant="body2">
               <strong>Codigo: </strong>
-              {data.requestCode ?? "Sin Datos"}
+              {data.quoteCode ?? "Sin Datos"}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <Typography variant="body2">
               <strong>Fecha y hora: </strong>
-              {data.requestDeliveryDateTime
-                ? DateTime.fromISO(data.requestDeliveryDateTime)
+              {data.quoteCreatedAt
+                ? DateTime.fromISO(data.quoteCreatedAt)
                     .setZone("America/La_Paz")
                     .minus({ hours: 4 })
                     .toLocaleString(DateTime.DATETIME_SHORT)
                 : "Sin Datos"}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Total: </strong>
-              {data.requestTotal ? "Bs. " + data.requestTotal : "Sin Datos"}
-            </Typography>
-          </Grid>
+
           <Grid item xs={12} md={12} alignContent="center" textAlign="center">
             <Typography variant="h6">LINEA DE TIEMPO</Typography>
           </Grid>
@@ -124,12 +119,13 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
                 >
                   {data.statuses?.[0]?.map((e: any, k: any) => {
                     return (
-                      <>
+                      <div key={k}>
                         <ListItem key={k}>
-                          <ListItemAvatar>
+                          <ListItemAvatar key={k}>
                             <Avatar>{findIcon(e)}</Avatar>
                           </ListItemAvatar>
                           <ListItemText
+                            key={e + k}
                             primary={`${findStatus(e)}`}
                             secondary={`${
                               e.createdAt
@@ -158,7 +154,7 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
                             component="li"
                           />
                         )}
-                      </>
+                      </div>
                     );
                   })}
                 </List>
@@ -175,4 +171,4 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
     </Dialog>
   );
 };
-export default RequestTimeLine;
+export default QuoteTimeLine;

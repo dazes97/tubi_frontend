@@ -6,15 +6,14 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
-import { BUTTON_NAME, SERVICE_TYPE } from "helpers";
+import { BUTTON_NAME } from "helpers";
 import { DateTime } from "luxon";
-import { MapRenderLocation } from "hooks";
-interface RequestDetailInterface {
+interface QuoteDetailInterface {
   data: any;
   openModal: boolean;
   onReset: any;
 }
-const RequestDetail = (props: RequestDetailInterface) => {
+const QuoteDetail = (props: QuoteDetailInterface) => {
   const { data, openModal, onReset } = props;
 
   useEffect(() => {}, [data]);
@@ -34,61 +33,31 @@ const RequestDetail = (props: RequestDetailInterface) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        <strong>Detalle Solicitud</strong>
+        <strong>Detalle Cotizacion</strong>
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
-            <Typography variant="h6">Datos Solicitud:</Typography>
+            <Typography variant="h6">Datos Cotizacion:</Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="body2">
               <strong>Codigo: </strong>
-              {data.requestCode ?? "Sin Datos"}
+              {data.quoteCode ?? "Sin Datos"}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="body2">
               <strong>Fecha y hora: </strong>
-              {data.requestDeliveryDateTime
-                ? DateTime.fromISO(data.requestDeliveryDateTime).toLocaleString(
+              {data.quoteCreatedAt
+                ? DateTime.fromISO(data.quoteCreatedAt).toLocaleString(
                     DateTime.DATETIME_SHORT
                   )
                 : "Sin Datos"}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Total: </strong>
-              {data.requestTotal ? "Bs. " + data.requestTotal : "Sin Datos"}
-            </Typography>
-          </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="h6">Datos Bicicleta:</Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Marca: </strong>
-              {data.bikeBrand ?? "Sin Datos"}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Modelo: </strong>
-              {data.bikeModel ?? "Sin Datos"}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Color: </strong>
-              {data.bikeColor ?? "Sin Datos"}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2">
-              <strong>Aro: </strong>
-              {data.bikeWheelSize ?? "Sin Datos"}
-            </Typography>
+            <Typography variant="h6">Descripcion:</Typography>
           </Grid>
           <Grid item xs={12} md={12}>
             <Typography variant="body2">
@@ -97,9 +66,19 @@ const RequestDetail = (props: RequestDetailInterface) => {
           </Grid>
           <Grid item xs={12} md={12}>
             <Typography variant="body2">
-              {data.bikeObservation && data.bikeObservation.length > 0
-                ? data.bikeObservation
-                : "Sin Observaciones"}
+              {data.quoteDescription && data.quoteDescription.length > 0
+                ? data.quoteDescription
+                : "Sin Descripcion"}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography variant="body2">
+              <strong>Tipo: </strong>
+              {data.quoteType
+                ? data.quoteType === "0"
+                  ? "Producto"
+                  : "Servicio"
+                : "Sin Datos"}
             </Typography>
           </Grid>
           <Grid item xs={12} md={12}>
@@ -127,40 +106,13 @@ const RequestDetail = (props: RequestDetailInterface) => {
           </Grid>
           <Grid item xs={12} md={12}>
             <Typography variant="body2">
-              <strong>Referencia: </strong>
-              {data.clientAddressDetail ?? "Sin Datos"}
+              <strong>Email: </strong>
+              {data.clientEmail && data.clientEmail.length > 0
+                ? data.clientEmail
+                : "Sin Datos"}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={12}>
-            <Typography variant="h6">Servicios:</Typography>
-          </Grid>
-
-          {data.services?.[0]?.map((e: any, k: any) => {
-            return (
-              <Grid item xs={12} md={12} key={k}>
-                <Typography variant="body2">
-                  {e.name && e.price && e.type
-                    ? `${e.name}  Bs. ${e.price} (${
-                        Number(e.type) === SERVICE_TYPE.PACKAGE.CODE
-                          ? "Paquete"
-                          : "Servicio"
-                      })`
-                    : "Sin Datos"}
-                </Typography>
-              </Grid>
-            );
-          })}
-          {data?.clientLat && data?.clientLng && (
-            <>
-              <Grid item xs={12} md={12}>
-                <Typography variant="h6">Ubicacion:</Typography>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <MapRenderLocation lat={data.clientLat} lng={data.clientLng} />
-              </Grid>
-            </>
-          )}
-          {data?.bikePhoto && (
+          {data?.quotePhoto && (
             <>
               <Grid item xs={12} md={12}>
                 <Typography variant="h6">Fotografia:</Typography>
@@ -172,8 +124,8 @@ const RequestDetail = (props: RequestDetailInterface) => {
                     height: "auto",
                     maxHeight: "400px",
                   }}
-                  src={data.bikePhoto}
-                  alt={data.requestCode}
+                  src={data.quotePhoto}
+                  alt={data.quoteCode}
                 />
               </Grid>
             </>
@@ -188,4 +140,4 @@ const RequestDetail = (props: RequestDetailInterface) => {
     </Dialog>
   );
 };
-export default RequestDetail;
+export default QuoteDetail;

@@ -5,23 +5,23 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import AddIcon from "@mui/icons-material/Add";
-import CompanyInterface from "./RequestInterface";
+import CompanyInterface from "./QuoteInterface";
 import Layout from "../template";
 import { NotificationSystem, SkeletonLoader } from "components";
 import { CRUD_CODE, CRUD_MESSAGE, BUTTON_NAME, PAGE, CONSTANT } from "helpers";
 import {
-  RequestCreate,
-  RequestDetail,
-  RequestTimeLine,
-  RequestStatus,
-  RequestTab,
+  QuoteCreate,
+  QuoteTab,
+  QuoteStatus,
+  QuoteDetail,
+  QuoteTimeLine,
 } from "./components";
 import {
-  requestCreate,
-  requestDelete,
-  requestList,
-  requestUpdate,
-} from "./RequestService";
+  quoteCreate,
+  quoteDelete,
+  quoteList,
+  quoteUpdate,
+} from "./QuoteService";
 const Request = () => {
   const [openModal, setOpenModal] = useState(false);
   const [dataForm, setDataForm] = useState<CompanyInterface>();
@@ -45,7 +45,7 @@ const Request = () => {
     try {
       setLoading(true);
       setTimeout(async () => {
-        const response = await requestList();
+        const response = await quoteList();
         setData(response.data?.length > 0 ? response.data : []);
         setLoading(false);
       }, CONSTANT.DEFAULT_TIME_OUT);
@@ -56,7 +56,6 @@ const Request = () => {
       });
     }
   }, []);
-
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -65,15 +64,15 @@ const Request = () => {
       let notificationMessage = "";
       switch (operation) {
         case CRUD_CODE.CREATE:
-          await requestCreate(formData);
+          await quoteCreate(formData);
           notificationMessage = CRUD_MESSAGE.CREATE.SUCCESS;
           break;
         case CRUD_CODE.UPDATE:
-          await requestUpdate(formData, formData.id);
+          await quoteUpdate(formData, formData.id);
           notificationMessage = CRUD_MESSAGE.UPDATE.SUCCESS;
           break;
         case CRUD_CODE.DELETE:
-          await requestDelete(formData.id);
+          await quoteDelete(formData.id);
           notificationMessage = CRUD_MESSAGE.DELETE.SUCCESS;
           break;
       }
@@ -91,10 +90,7 @@ const Request = () => {
   };
   const updateRequestStatus = async (formData: any, requestStatus: any) => {
     try {
-      await requestUpdate(
-        { ...formData, newStatus: requestStatus },
-        formData.id
-      );
+      await quoteUpdate({ ...formData, newStatus: requestStatus }, formData.id);
       fetchData();
       NotificationSystem({
         type: "success",
@@ -117,7 +113,7 @@ const Request = () => {
               {PAGE.INDEX.NAME}
             </Link>
             <Typography color="text.primary">
-              {PAGE.REQUEST.INDEX.NAME}
+              {PAGE.QUOTE.INDEX.NAME}
             </Typography>
           </Breadcrumbs>
         </Grid>
@@ -139,7 +135,7 @@ const Request = () => {
         {loading && <SkeletonLoader type="table" />}
         <Grid item xs={12} md={12}>
           {!loading && (
-            <RequestTab
+            <QuoteTab
               onChangeData={onChangeData}
               onChangeOpenModal={onChangeOpenModal}
               onChangeOperation={onChangeOperation}
@@ -149,14 +145,14 @@ const Request = () => {
           )}
         </Grid>
         {operation && operation === CRUD_CODE.CREATE && (
-          <RequestCreate
+          <QuoteCreate
             onSendDataToServer={onSendDataToServer}
             openModal={openModal}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.EXTRA_1 && (
-          <RequestStatus
+          <QuoteStatus
             onChangeRequestStatus={updateRequestStatus}
             openModal={openModal}
             data={dataForm}
@@ -164,14 +160,14 @@ const Request = () => {
           />
         )}
         {operation && operation === CRUD_CODE.EXTRA_2 && (
-          <RequestDetail
+          <QuoteDetail
             openModal={openModal}
             data={dataForm}
             onReset={onReset}
           />
         )}
         {operation && operation === CRUD_CODE.EXTRA_3 && (
-          <RequestTimeLine
+          <QuoteTimeLine
             openModal={openModal}
             data={dataForm}
             onReset={onReset}

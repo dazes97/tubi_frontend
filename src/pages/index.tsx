@@ -11,6 +11,7 @@ import Service from "./service";
 import Package from "./package";
 import Branch from "./branch";
 import Request from "./request";
+import Quote from "./quote";
 export {
   Login,
   Register,
@@ -25,4 +26,5 @@ export {
   Package,
   Branch,
   Request,
+  Quote,
 };
