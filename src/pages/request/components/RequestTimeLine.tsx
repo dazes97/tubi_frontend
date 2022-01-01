@@ -27,6 +27,7 @@ interface RequestDetailInterface {
 }
 const RequestTimeLine = (props: RequestDetailInterface) => {
   const { data, openModal, onReset } = props;
+  console.log("data: ", data);
 
   const resetDefaultValuesForm = () => {
     closeForm();
@@ -95,7 +96,7 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="body2">
-              <strong>Fecha y hora: </strong>
+              <strong>Fecha y hora recepcion: </strong>
               {data.requestDeliveryDateTime
                 ? DateTime.fromISO(data.requestDeliveryDateTime)
                     .setZone("America/La_Paz")
@@ -111,7 +112,7 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={12} alignContent="center" textAlign="center">
-            <Typography variant="h6">LINEA DE TIEMPO</Typography>
+            <Typography variant="body2">LINEA DE TIEMPO</Typography>
           </Grid>
           {data.statuses[0] && data.statuses[0].length > 0 && (
             <>
@@ -124,8 +125,8 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
                 >
                   {data.statuses?.[0]?.map((e: any, k: any) => {
                     return (
-                      <>
-                        <ListItem key={k}>
+                      <div key={k}>
+                        <ListItem>
                           <ListItemAvatar>
                             <Avatar>{findIcon(e)}</Avatar>
                           </ListItemAvatar>
@@ -152,13 +153,19 @@ const RequestTimeLine = (props: RequestDetailInterface) => {
                               : e.observation}
                           </Typography>
                         )}
+                        <Typography variant="body2" style={{ marginLeft: 20 }}>
+                          <strong>Personal: </strong>
+                          {e.personal.length > 50
+                            ? `${e.personal.substring(0, 50)}...`
+                            : e.personal}
+                        </Typography>
                         {data.statuses[0].length - 1 !== k && (
                           <Divider
                             style={{ paddingTop: 5, paddingBottom: 5 }}
                             component="li"
                           />
                         )}
-                      </>
+                      </div>
                     );
                   })}
                 </List>

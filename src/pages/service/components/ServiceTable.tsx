@@ -28,7 +28,7 @@ const CompanyOwnerTable = (props: EditDeleteProps) => {
     },
     {
       field: "price",
-      headerName: "Precio",
+      headerName: "Precio(Bs.)",
       headerAlign: "center",
       flex: 0.3,
       minWidth: 70,
