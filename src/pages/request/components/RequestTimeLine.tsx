@@ -27,8 +27,6 @@ interface RequestDetailInterface {
 }
 const RequestTimeLine = (props: RequestDetailInterface) => {
   const { data, openModal, onReset } = props;
-  console.log("data: ", data);
-
   const resetDefaultValuesForm = () => {
     closeForm();
   };

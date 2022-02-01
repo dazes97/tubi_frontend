@@ -89,12 +89,12 @@ const PackageEdit = (props: EditProps) => {
     }
   };
   const deleteServiceFromPackage = (element: any) => {
+    setPackageServices((prev: any) => {
+      return prev.filter((e: any) => e.id !== element.id);
+    });
     if (
       !servicesToAddOrDelete?.toDelete.find((e: any) => e.id === element.id)
     ) {
-      setPackageServices((prev: any) => {
-        return prev.filter((e: any) => e.id !== element.id);
-      });
       setServicesToAddOrDelete((prev) => {
         return {
           ...prev,
@@ -105,6 +105,7 @@ const PackageEdit = (props: EditProps) => {
     }
   };
   const addServiceToPackage = (elementId: any) => {
+    //search in service list from server if exists continue if dont return
     const findService = servicesList?.find((e: any) => e.id === elementId);
     if (!findService) return;
     //clean item from servicesToAddOrDelete and insert in a clean push
@@ -115,7 +116,7 @@ const PackageEdit = (props: EditProps) => {
     });
     setServicesToAddOrDelete((prev: any) => {
       let reWriteArrayAdd = prev.toAdd ?? [];
-      if (!data?.services.find((e: any) => e.id === elementId)) {
+      if (!data?.services[0]?.find((e: any) => e.id === elementId)) {
         reWriteArrayAdd =
           prev.toAdd?.filter((e: any) => e.id !== elementId) ?? [];
         reWriteArrayAdd.push(findService);

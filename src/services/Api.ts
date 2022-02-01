@@ -16,7 +16,7 @@ axios.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log("entro al error");
+    //console.log("entro al error");
     // Do something with request error
     return Promise.reject(error);
   }
