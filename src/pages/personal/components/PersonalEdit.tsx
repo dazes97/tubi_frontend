@@ -27,7 +27,7 @@ interface personalEditInterface {
   email: string;
   password: string;
   gender: string;
-  bornDate: Date;
+  bornDate: string;
   address: string;
   dni: string;
   personalTypeId: string;

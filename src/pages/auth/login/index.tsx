@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginSchema from "./LoginValidation";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthLogin } from "auth";
 import Footer from "./Footer";
 import { ToastContainer } from "react-toastify";
@@ -30,19 +29,25 @@ export default function Login() {
     handleSubmit,
     control,
     reset,
-    formState: { isValid },
-  } = useForm<IFormInputs>({ resolver: yupResolver(loginSchema) });
-  let history = useHistory();
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    sendAuthCredentials(data);
-    //reset({ email: "", password: "", remember: false });
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      remember: false,
+    },
+  });
+  let navigate = useNavigate();
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    await sendAuthCredentials(data);
+    reset({ email: "", password: "", remember: false });
   };
   const sendAuthCredentials = async (dataForm: IFormInputs) => {
     try {
-      const response = await AuthLogin(dataForm);
-      if (response) {
-        history.push("/");
-        reset({ email: "", password: "", remember: false });
+      const loggedIn = await AuthLogin(dataForm);
+      if (loggedIn) {
+        navigate("/");
       } else {
         NotificationSystem({
           type: "error",
@@ -89,10 +94,12 @@ export default function Login() {
             <Controller
               name="email"
               control={control}
-              defaultValue={""}
-              rules={{ required: true }}
               render={({ field }) => (
                 <TextField
+                  error={errors.email?.type === "email"}
+                  helperText={
+                    errors.email?.type === "email" && "Email Requerido"
+                  }
                   margin="normal"
                   fullWidth
                   id="email"
@@ -106,10 +113,13 @@ export default function Login() {
             <Controller
               name="password"
               control={control}
-              defaultValue={""}
-              rules={{ required: true }}
               render={({ field }) => (
                 <TextField
+                  error={errors.password?.type === "min"}
+                  helperText={
+                    errors.password?.type === "min" &&
+                    "Contraseña Requerida"
+                  }
                   margin="normal"
                   fullWidth
                   label="Contraseña"
@@ -123,8 +133,6 @@ export default function Login() {
             <Controller
               name="remember"
               control={control}
-              defaultValue={false}
-              rules={{ required: true }}
               render={({ field }) => (
                 <FormControlLabel
                   control={<Checkbox color="primary" />}
@@ -137,7 +145,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              disabled={!isValid}
+              // disabled={!isValid}
               sx={{ mt: 3, mb: 2 }}
             >
               Iniciar Sesion

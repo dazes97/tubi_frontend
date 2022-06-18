@@ -9,14 +9,13 @@ axios.interceptors.request.use(
       return config;
     }
     let { token } = JSON.parse(loginInfo);
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
   },
   function (error) {
-    //console.log("entro al error");
     // Do something with request error
     return Promise.reject(error);
   }

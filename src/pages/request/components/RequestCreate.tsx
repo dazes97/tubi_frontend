@@ -29,7 +29,7 @@ interface RequestCreateInterface {
   bikeWheelSize: string;
   bikeColor: string;
   bikeObservation: string;
-  requestDeliveryDateTime: Date;
+  requestDeliveryDateTime: string;
   clientName: string;
   clientLastName: string;
   clientPhone: string;

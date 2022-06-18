@@ -4,11 +4,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AuthLogout } from "../../auth";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const ITEM_HEIGHT = 48;
 export default function RightMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -20,7 +20,7 @@ export default function RightMenu() {
     const response = await AuthLogout();
     if (response) {
       handleClose();
-      history.push("/login");
+      navigate("/login");
     } else {
       console.log("fallo al cerrar sesion");
     }

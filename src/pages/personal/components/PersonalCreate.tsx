@@ -25,7 +25,7 @@ interface personalCreateInterface {
   email: string;
   password: string;
   gender: number;
-  bornDate: Date;
+  bornDate: string;
   address: string;
   dni: string;
   personalTypeId: number;
